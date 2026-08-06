@@ -1,0 +1,212 @@
+<%- include("../includes/header") %>
+
+    <!-- Form Container -->
+    <main class="form-container">
+
+        <div class="form-header">
+            <span class="form-label">WANDERLUST</span>
+
+            <h1>Add a new listing</h1>
+
+            <p>
+                Share a beautiful place and help travelers
+                discover their next destination.
+            </p>
+        </div>
+
+
+        <!-- Listing Form -->
+        <form
+            method="POST"
+            action="/listings"
+            class="listing-form"
+        >
+
+            <!-- Title -->
+            <div class="form-group">
+                <label for="title">
+                    Listing Title
+                </label>
+
+                <input
+                    type="text"
+                    id="title"
+                    name="listing[title]"
+                    placeholder="e.g. Luxury Beach Villa"
+                    required
+                >
+            </div>
+
+
+            <!-- Description -->
+            <div class="form-group">
+                <label for="description">
+                    Description
+                </label>
+
+                <textarea
+                    id="description"
+                    name="listing[description]"
+                    placeholder="Describe your place..."
+                    rows="5"
+                    required
+                ></textarea>
+            </div>
+
+
+            <!-- Image -->
+            <div class="form-group">
+                <label for="image">
+                    Image URL
+                </label>
+
+                <input
+                    type="url"
+                    id="image"
+                    name="listing[image][url]"
+                    placeholder="https://example.com/image.jpg"
+                >
+
+                <small>
+                    Paste a direct URL to your listing image.
+                </small>
+            </div>
+
+
+            <!-- Image Filename -->
+            <input
+                type="hidden"
+                name="listing[image][filename]"
+                value="listingimage"
+            >
+
+
+            <!-- Price -->
+            <div class="form-group">
+                <label for="price">
+                    Price per night
+                </label>
+
+                <div class="input-prefix">
+                    <span>₹</span>
+
+                    <input
+                        type="number"
+                        id="price"
+                        name="listing[price]"
+                        placeholder="1500"
+                        min="0"
+                        required
+                    >
+                </div>
+            </div>
+
+
+            <!-- Location + Country -->
+            <div class="form-row">
+
+                <div class="form-group">
+                    <label for="location">
+                        Location
+                    </label>
+
+                    <input
+                        type="text"
+                        id="location"
+                        name="listing[location]"
+                        placeholder="e.g. Kathmandu"
+                        required
+                    >
+                </div>
+
+
+                <div class="form-group">
+                    <label for="country">
+                        Country
+                    </label>
+
+                    <input
+                        type="text"
+                        id="country"
+                        name="listing[country]"
+                        placeholder="e.g. Nepal"
+                        required
+                    >
+                </div>
+
+            </div>
+
+
+            <!-- Category + Rating -->
+            <div class="form-row">
+
+                <div class="form-group">
+                    <label for="category">
+                        Category
+                    </label>
+
+                    <select
+                        id="category"
+                        name="listing[category]"
+                    >
+                        <option value="Hotel">Hotel</option>
+                        <option value="Villa">Villa</option>
+                        <option value="Apartment">Apartment</option>
+                        <option value="Resort">Resort</option>
+                        <option value="Guesthouse">Guesthouse</option>
+                        <option value="Hostel">Hostel</option>
+                        <option value="Tourist place">
+                            Tourist Place
+                        </option>
+                    </select>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="rating">
+                        Rating
+                    </label>
+
+                    <select
+                        id="rating"
+                        name="listing[rating]"
+                    >
+                        <option value="5">★★★★★ 5.0</option>
+                        <option value="4.5">★★★★½ 4.5</option>
+                        <option value="4">★★★★ 4.0</option>
+                        <option value="3.5">★★★½ 3.5</option>
+                        <option value="3">★★★ 3.0</option>
+                    </select>
+                </div>
+
+            </div>
+
+
+            <!-- Buttons -->
+            <div class="form-actions">
+
+                <a
+                    href="/listings"
+                    class="cancel-btn"
+                >
+                    Cancel
+                </a>
+
+                <button
+                    type="submit"
+                    class="submit-btn"
+                >
+                    Create Listing
+                    <span>→</span>
+                </button>
+
+            </div>
+
+        </form>
+
+    </main>
+
+    <%- include("../includes/footer") %>
+
+</body>
+</html>

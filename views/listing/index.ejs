@@ -1,0 +1,104 @@
+<%- include("../includes/header") %>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <p class="hero-tag">DISCOVER YOUR NEXT DESTINATION</p>
+
+            <h1>Find a place you'll<br>love to stay.</h1>
+
+            <p class="hero-description">
+                Explore beautiful destinations, unique stays and
+                unforgettable experiences around the world.
+            </p>
+
+            <a href="#listings" class="explore-btn">Explore Listings</a>
+        </div>
+    </section>
+
+    <!-- Listings -->
+    <main class="container" id="listings">
+
+        <div class="section-heading">
+            <div>
+                <p class="small-heading">EXPLORE</p>
+                <h2>Featured Listings</h2>
+            </div>
+
+            <span class="listing-count">
+                <%= allListings.length %> places
+            </span>
+        </div>
+
+        <div class="listing-grid">
+
+            <% for(let listing of allListings) { %>
+
+                <a href="/listings/<%= listing._id %>" class="listing-card">
+
+                    <div class="image-container">
+                        <img
+                            src="<%= listing.image || listing.images %>"
+                            alt="<%= listing.title %>"
+                        >
+
+                        <span class="heart">♡</span>
+                    </div>
+
+                    <div class="card-content">
+
+                        <h3>
+                            <%= listing.title %>
+                        </h3>
+
+                        <p class="location">
+                            📍 <%= listing.location || "Beautiful Destination" %>
+                        </p>
+
+                        <div class="card-footer">
+
+                            <p class="price">
+                                ₹<%= listing.price ? listing.price.toLocaleString("en-IN") : "2,500" %>
+                                <span>/ night</span>
+                            </p>
+
+                            <span class="view-link">
+                                View →
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </a>
+
+            <% } %>
+
+        </div>
+
+        <!-- Sample data if database is empty -->
+        <% if(allListings.length === 0) { %>
+
+            <div class="empty-state">
+
+                <div class="empty-icon">🏡</div>
+
+                <h3>No listings yet</h3>
+
+                <p>
+                    Be the first person to add an amazing destination.
+                </p>
+
+                <a href="/listings/new" class="explore-btn">
+                    Add First Listing
+                </a>
+
+            </div>
+
+        <% } %>
+
+    </main>
+<%- include("../includes/footer") %>
+
+</body>
+</html>

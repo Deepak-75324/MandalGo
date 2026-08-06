@@ -1,0 +1,309 @@
+<%- include("../includes/header") %>
+
+    <!-- Main -->
+    <main class="edit-listing-container">
+
+        <!-- Header -->
+        <div class="edit-listing-header">
+
+            <span class="page-tag">
+                WANDERLUST
+            </span>
+
+            <h1>
+                Edit your listing
+            </h1>
+
+            <p>
+                Update your listing information and keep
+                your travel destination details fresh.
+            </p>
+
+        </div>
+
+
+        <!-- Form Card -->
+        <section class="edit-listing-card">
+
+            <form
+                method="POST"
+                action="/listings/<%= listing._id %>?_method=PUT"
+                class="listing-form"
+            >
+
+                <!-- Title -->
+                <div class="form-group">
+
+                    <label for="title">
+                        Listing Title
+                    </label>
+
+                    <input
+                        type="text"
+                        id="title"
+                        name="listing[title]"
+                        value="<%= listing.title %>"
+                        placeholder="e.g. Luxury Beach Villa"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Description -->
+                <div class="form-group">
+
+                    <label for="description">
+                        Description
+                    </label>
+
+                    <textarea
+                        id="description"
+                        name="listing[description]"
+                        rows="5"
+                        placeholder="Describe your place..."
+                        required
+                    ><%= listing.description %></textarea>
+
+                </div>
+
+
+<!-- Image -->
+                <div class="form-group">
+
+                    <label for="image">
+                        Image URL
+                    </label>
+
+                    <input
+                        type="url"
+                        id="image"
+                        name="listing[image][url]"
+                        value="<%= (typeof listing.image === 'object' && listing.image.url) ? listing.image.url : (typeof listing.image === 'string' ? listing.image : '') %>"
+                        placeholder="https://images.unsplash.com/..."
+                    >
+
+                    <small>
+                        Update the image URL if you want to change the listing image.
+                    </small>
+
+                </div>
+
+
+                <!-- Image Filename -->
+                <input
+                    type="hidden"
+                    name="listing[image][filename]"
+                    value="<%= (typeof listing.image === 'object' && listing.image.filename) ? listing.image.filename : 'listingimage' %>"
+                >
+
+
+                <!-- Price -->
+                <div class="form-group">
+
+                    <label for="price">
+                        Price per night
+                    </label>
+
+                    <div class="price-input">
+
+                        <span>₹</span>
+
+                        <input
+                            type="number"
+                            id="price"
+                            name="listing[price]"
+                            value="<%= listing.price %>"
+                            placeholder="1500"
+                            min="0"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- Location / Country -->
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label for="location">
+                            Location
+                        </label>
+
+                        <input
+                            type="text"
+                            id="location"
+                            name="listing[location]"
+                            value="<%= listing.location %>"
+                            placeholder="e.g. Kathmandu"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="country">
+                            Country
+                        </label>
+
+                        <input
+                            type="text"
+                            id="country"
+                            name="listing[country]"
+                            value="<%= listing.country %>"
+                            placeholder="e.g. Nepal"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- Category / Rating -->
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label for="category">
+                            Category
+                        </label>
+
+                        <select
+                            id="category"
+                            name="listing[category]"
+                        >
+
+                            <option
+                                value="Hotel"
+                                <%= listing.category === "Hotel" ? "selected" : "" %>
+                            >
+                                Hotel
+                            </option>
+
+                            <option
+                                value="Villa"
+                                <%= listing.category === "Villa" ? "selected" : "" %>
+                            >
+                                Villa
+                            </option>
+
+                            <option
+                                value="Apartment"
+                                <%= listing.category === "Apartment" ? "selected" : "" %>
+                            >
+                                Apartment
+                            </option>
+
+                            <option
+                                value="Resort"
+                                <%= listing.category === "Resort" ? "selected" : "" %>
+                            >
+                                Resort
+                            </option>
+
+                            <option
+                                value="Guesthouse"
+                                <%= listing.category === "Guesthouse" ? "selected" : "" %>
+                            >
+                                Guesthouse
+                            </option>
+
+                            <option
+                                value="Hostel"
+                                <%= listing.category === "Hostel" ? "selected" : "" %>
+                            >
+                                Hostel
+                            </option>
+
+                            <option
+                                value="Tourist place"
+                                <%= listing.category === "Tourist place" ? "selected" : "" %>
+                            >
+                                Tourist Place
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="rating">
+                            Rating
+                        </label>
+
+                        <select
+                            id="rating"
+                            name="listing[rating]"
+                        >
+
+                            <option value="5"
+                                <%= listing.rating == 5 ? "selected" : "" %>>
+                                ★★★★★ 5.0
+                            </option>
+
+                            <option value="4.5"
+                                <%= listing.rating == 4.5 ? "selected" : "" %>>
+                                ★★★★½ 4.5
+                            </option>
+
+                            <option value="4"
+                                <%= listing.rating == 4 ? "selected" : "" %>>
+                                ★★★★ 4.0
+                            </option>
+
+                            <option value="3.5"
+                                <%= listing.rating == 3.5 ? "selected" : "" %>>
+                                ★★★½ 3.5
+                            </option>
+
+                            <option value="3"
+                                <%= listing.rating == 3 ? "selected" : "" %>>
+                                ★★★ 3.0
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Buttons -->
+                <div class="form-buttons">
+
+                    <a
+                        href="/listings/<%= listing._id %>"
+                        class="cancel-btn"
+                    >
+                        Cancel
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="create-btn"
+                    >
+                        Save Changes
+                        <span>✓</span>
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+    </main>
+
+    <%- include("../includes/footer") %>
+
+</body>
+
+</html>
