@@ -135,6 +135,6 @@ app.get("/listings/:id", async(req, res) => {
 //     .catch(err => console.log(err));
 //     res.send("All Listing..");
 // });
-app.listen(8080,'0.0.0.0', () => {
+app.listen(8080,"0.0.0.0", () => {
     console.log("app is listening on port 8080");
 });
