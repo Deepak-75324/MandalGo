@@ -4,12 +4,14 @@ const mongoose = require('mongoose');
 const Listing = require('./models/listing.js');
 const path = require('path');
 const methodOverride = require('method-override');
+// const ejsMate = require("ejs-Mate");   // for
 
 app.set("view engine","ejs");
 app.set("views",path.join(__dirname,"views"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(methodOverride("_method"));
+// app.engine("ejs", ejsMate);
 // connect to mongo db
 main()
 .then((res) => {
@@ -26,9 +28,19 @@ app.get('/', (req,res) => {
 });
 
 // index route
+// app.get("/listings", async (req, res) => {
+//     const allListings = await Listing.find({});
+//     res.render('listing/index.ejs', { allListings, title: "Explore Listings | MandalGo" });
+// });
 app.get("/listings", async (req, res) => {
-    const allListings = await Listing.find({});
-    res.render('listing/index.ejs', { allListings, title: "Explore Listings | MandalGo" });
+
+    const count = await Listing.countDocuments();
+
+    const allListings = await Listing.aggregate([  // it helps to show listing in random sequence
+        { $sample: { size: count } }
+    ]);
+
+    res.render("listing/index.ejs", { allListings, title: "Explore Listings | MandalGo"});
 });
 
 //new and create route
