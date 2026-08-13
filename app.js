@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const Listing = require('./models/listing.js');
 const path = require('path');
 const methodOverride = require('method-override');
+const wrapAsync = require("./utils/wrapAsync.js");
+const ExpressError = require("./utils/ExpressError.js");
 // const ejsMate = require("ejs-Mate");   // for
 
 app.set("view engine","ejs");
@@ -32,7 +34,7 @@ app.get('/', (req,res) => {
 //     const allListings = await Listing.find({});
 //     res.render('listing/index.ejs', { allListings, title: "Explore Listings | MandalGo" });
 // });
-app.get("/listings", async (req, res) => {
+app.get("/listings", wrapAsync(async (req, res) => {
 
     const count = await Listing.countDocuments();
 
@@ -41,7 +43,7 @@ app.get("/listings", async (req, res) => {
     ]);
 
     res.render("listing/index.ejs", { allListings, title: "Explore Listings | MandalGo"});
-});
+}));
 
 //new and create route
 app.get("/listings/new", (req,res) => {
@@ -49,22 +51,28 @@ app.get("/listings/new", (req,res) => {
 });
 
 //create route
-app.post("/listings", async (req, res) => {
+app.post("/listings", wrapAsync(async (req, res) => {
+    if(!req.body.listing){  // custom error handling
+        throw new ExpressError(400, "send valid data for listing!");
+    }
     const newListing = new Listing(req.body.listing);
 
     await newListing.save();
 
     res.redirect("/listings");
-});
+}));
 
 // edit route
-app.get("/listings/:id/edit", async (req, res) => {
+app.get("/listings/:id/edit", wrapAsync(async (req, res) => {
+    // if(!req.body.listing){  // custom error handling
+    //     throw new ExpressError(400, "send valid data for listing!");
+    // }
     let {id} = req.params;
     const listing = await Listing.findById(id);
     res.render("listing/edit.ejs", {listing, title: "Edit Listing | MandalGo"});
-});
+}));
 // update route
-app.put("/listings/:id", async (req, res) => {
+app.put("/listings/:id", wrapAsync(async (req, res) => {
 
     const { id } = req.params;
 
@@ -97,24 +105,24 @@ app.put("/listings/:id", async (req, res) => {
     );
 
     res.redirect(`/listings/${id}`);
-});
+}));
 
 //delete route
-app.delete("/listings/:id", async (req, res) => {
+app.delete("/listings/:id", wrapAsync(async (req, res) => {
     let {id} = req.params;
     let deletedListing = await Listing.findByIdAndDelete(id);
     console.log(deletedListing);
     res.redirect("/listings");
-});
+}));
 // show route
-app.get("/listings/:id", async(req, res) => {
+app.get("/listings/:id", wrapAsync(async(req, res) => {
     let { id } = req.params;
     const listing = await Listing.findById(id);
     if (!listing) {
         return res.status(404).send("Listing not found");
     }
     res.render("listing/show.ejs", { listing, title: "Listing Details | MandalGo" });
-});
+}));
 
 
 // // all listening route
@@ -135,6 +143,26 @@ app.get("/listings/:id", async(req, res) => {
 //     .catch(err => console.log(err));
 //     res.send("All Listing..");
 // });
+
+// if not match in any route then
+app.all("/{*splat}", (req, res, next) => {
+    next(new ExpressError(404, "Page not found!"));
+});
+
+// Custom error handling
+app.use((err, req, res, next) => {
+
+    let {
+        statusCode = 500,
+        message = "Something went wrong!"
+    } = err;
+
+    res.status(statusCode).render("error.ejs", {
+        message,
+        statusCode
+    });
+
+});
 app.listen(8080,"0.0.0.0", () => {
     console.log("app is listening on port 8080");
 });

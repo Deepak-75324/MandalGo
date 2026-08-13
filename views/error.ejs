@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Error | MandalGo</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+    <main class="error-page">
+
+        <div class="error-card">
+
+            <div class="error-icon">
+                ⚠️
+            </div>
+
+            <h1>
+                Something went wrong
+            </h1>
+
+            <p class="error-message">
+                <%= message || "Sorry, we couldn't complete your request." %>
+            </p>
+
+            <% if (statusCode) { %>
+                <p class="error-code">
+                    Error <%= statusCode %>
+                </p>
+            <% } %>
+
+            <a href="/listings" class="error-btn">
+                ← Back to Explore
+            </a>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>
