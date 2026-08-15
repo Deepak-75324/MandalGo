@@ -6,6 +6,7 @@ const path = require('path');
 const methodOverride = require('method-override');
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
+const {listingSchema} = require("./schema");
 // const ejsMate = require("ejs-Mate");   // for
 
 app.set("view engine","ejs");
@@ -50,11 +51,20 @@ app.get("/listings/new", (req,res) => {
     res.render("listing/new.ejs", { title: "Add Listing | MandalGo" });
 });
 
-//create route
-app.post("/listings", wrapAsync(async (req, res) => {
-    if(!req.body.listing){  // custom error handling
-        throw new ExpressError(400, "send valid data for listing!");
+// listingSchema validation function
+const validateListing = (req, res, next) => {
+    let {error} = listingSchema.validate(req.body);
+    if(error){
+        let errMsg = error.details.map((el) => el.message).join(",");
+        throw new ExpressError(400, error);
+    }else{
+        next();
     }
+}
+
+//create route
+app.post("/listings", validateListing, wrapAsync(async (req, res, next) => {
+
     const newListing = new Listing(req.body.listing);
 
     await newListing.save();
@@ -72,7 +82,7 @@ app.get("/listings/:id/edit", wrapAsync(async (req, res) => {
     res.render("listing/edit.ejs", {listing, title: "Edit Listing | MandalGo"});
 }));
 // update route
-app.put("/listings/:id", wrapAsync(async (req, res) => {
+app.put("/listings/:id",validateListing, wrapAsync(async (req, res) => {
 
     const { id } = req.params;
 
