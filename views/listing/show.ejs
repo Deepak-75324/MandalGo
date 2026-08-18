@@ -161,5 +161,171 @@
 
 </main>
 
+<div class="review-form-container">
+
+    <div class="review-form-header">
+        <h2>Leave a Review</h2>
+        <p>Share your experience with other travelers</p>
+    </div>
+
+    <form action="/listings/<%= listing._id %>/reviews" method="POST">
+
+        <!-- Rating -->
+        <div class="form-group rating-group">
+
+            <label for="rating">Your Rating</label>
+
+            <div class="rating-input">
+
+                <input
+                    id="rating"
+                    type="range"
+                    min="1"
+                    max="5"
+                    value="5"
+                    name="review[rating]"
+                    required
+                >
+
+                <div class="rating-labels">
+                    <span>1 ★</span>
+                    <span>2 ★</span>
+                    <span>3 ★</span>
+                    <span>4 ★</span>
+                    <span>5 ★</span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Comment -->
+        <div class="form-group">
+
+            <label for="comment">Your Review</label>
+
+            <textarea
+                id="comment"
+                name="review[comment]"
+                placeholder="Tell us about your experience..."
+                rows="6"
+                maxlength="500"
+                required
+            ></textarea>
+
+            <div class="character-info">
+                Maximum 500 characters
+            </div>
+
+        </div>
+
+
+        <!-- Submit -->
+        <button class="review-submit-btn" type="submit">
+            Submit Review
+        </button>
+
+    </form>
+
+</div>
+
+<div class="reviews-section details-container ">
+    <h2 class="reviews-title">What Our Guests Say</h2>
+
+    <% if (listing.reviews.length === 0) { %>
+        <p class="no-reviews">No reviews yet. Be the first to review!</p>
+    <% } else { %>
+
+        <div class="reviews-grid">
+
+            <% 
+                const names = [
+                    "John Doe",
+                    "Emma Wilson",
+                    "Michael Smith",
+                    "Sophia Brown",
+                    "David Miller",
+                    "Olivia Davis",
+                    "James Anderson",
+                    "Ava Taylor"
+                ];
+            %>
+
+            <% listing.reviews.forEach((review, index) => { %>
+
+                <div class="review-card">
+
+                    <div class="review-header">
+
+                        <div class="reviewer-info">
+                            <div class="review-avatar">
+                                <%= names[index % names.length].charAt(0) %>
+                            </div>
+
+                            <div>
+                                <h3>
+                                    <%= names[index % names.length] %>
+                                </h3>
+
+                                <% if (review.created_At) { %>
+                                    <span class="review-date">
+                                        <%= new Date(review.created_At).toLocaleDateString("en-IN", {
+                                            day: "2-digit",
+                                            month: "short",
+                                            year: "numeric"
+                                        }) %>
+                                    </span>
+                                <% } %>
+                            </div>
+                        </div>
+                        <form
+                            action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
+                            method="POST"
+                            onsubmit="return confirm('Are you sure you want to delete this review?');"
+                        >
+                            <button type="submit" class="delete-review-btn">
+                                🗑️
+                            </button>
+                        </form>
+
+                    </div>
+
+
+                    <!-- Stars -->
+                    <div class="rating">
+
+                        <% for (let i = 1; i <= 5; i++) { %>
+
+                            <% if (i <= review.rating) { %>
+                                <span class="star filled">★</span>
+                            <% } else { %>
+                                <span class="star">☆</span>
+                            <% } %>
+
+                        <% } %>
+
+                        <span class="rating-number">
+                            <%= review.rating %>/5
+                        </span>
+
+                    </div>
+
+
+                    <!-- Comment -->
+                    <p class="review-comment">
+                        "<%= review.comment %>"
+                    </p>
+
+                </div>
+
+            <% }) %>
+
+        </div>
+
+    <% } %>
+
+</div>
+
     <%- include("../includes/footer") %>
 

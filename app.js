@@ -2,11 +2,12 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const Listing = require('./models/listing.js');
+const Review = require('./models/review.js');
 const path = require('path');
 const methodOverride = require('method-override');
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
-const {listingSchema} = require("./schema");
+const {listingSchema, reviewSchema} = require("./schema");
 // const ejsMate = require("ejs-Mate");   // for
 
 app.set("view engine","ejs");
@@ -56,11 +57,27 @@ const validateListing = (req, res, next) => {
     let {error} = listingSchema.validate(req.body);
     if(error){
         let errMsg = error.details.map((el) => el.message).join(",");
-        throw new ExpressError(400, error);
+        throw new ExpressError(400, ereMsg);
     }else{
         next();
     }
-}
+};
+const validateReview = (req, res, next) => {
+
+    let { error } = reviewSchema.validate(req.body);
+
+    if (error) {
+        console.log("joi error details:", error.details);
+
+        let errMsg = error.details
+            .map((el) => el.message)
+            .join(",");
+
+        throw new ExpressError(400, errMsg);
+    } else {
+        next();
+    }
+};
 
 //create route
 app.post("/listings", validateListing, wrapAsync(async (req, res, next) => {
@@ -124,10 +141,60 @@ app.delete("/listings/:id", wrapAsync(async (req, res) => {
     console.log(deletedListing);
     res.redirect("/listings");
 }));
+
+// post request
+// review route
+
+app.post("/listings/:id/reviews", validateReview, wrapAsync(async (req, res) => {
+
+    const listing = await Listing.findById(req.params.id);
+
+    if (!listing) {
+        throw new ExpressError(404, "Listing not found");
+    }
+
+    const newReview = new Review(req.body.review);
+
+    listing.reviews.push(newReview);
+
+    await newReview.save();
+    await listing.save();
+
+    console.log("New review saved");
+
+    res.redirect(`/listings/${listing._id}`);
+}));
+
+// delete review route
+app.delete(
+    "/listings/:id/reviews/:reviewId",
+    wrapAsync(async (req, res) => {
+
+        const { id, reviewId } = req.params;
+
+        // Remove review ID from Listing
+        await Listing.findByIdAndUpdate(
+            id,
+            {
+                $pull: {
+                    reviews: reviewId
+                }
+            }
+        );
+
+        // Delete actual Review document
+        await Review.findByIdAndDelete(reviewId);
+
+        console.log("Review deleted");
+
+        res.redirect(`/listings/${id}`);
+    })
+);
+
 // show route
 app.get("/listings/:id", wrapAsync(async(req, res) => {
-    let { id } = req.params;
-    const listing = await Listing.findById(id);
+    const { id } = req.params;
+    const listing = await Listing.findById(id).populate("reviews");
     if (!listing) {
         return res.status(404).send("Listing not found");
     }
