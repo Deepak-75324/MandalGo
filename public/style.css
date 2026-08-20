@@ -767,7 +767,7 @@ body {
     margin-bottom: 25px;
 }
 
-.star {
+.show-star {
     color: #f5a623;
 
     font-size: 20px;
@@ -2145,7 +2145,7 @@ body {
 
 .star {
     font-size: 21px;
-    color: #ccc;
+    color: #ffc107;
 }
 
 .star.filled {
