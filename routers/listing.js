@@ -82,7 +82,7 @@ router.post(
         const newListing = new Listing(req.body.listing);
 
         await newListing.save();
-
+        req.flash("success", "New listing added!");
         res.redirect("/listings");
 
     })
@@ -105,17 +105,20 @@ router.get(
             .populate("reviews");
 
         if (!listing) {
-            throw new ExpressError(404, "Listing not found!");
+            req.flash(
+                "error",
+                "Listing you requested for does not exist"
+            );
+
+            return res.redirect("/listings");
         }
 
         res.render("listing/show.ejs", {
             listing,
             title: `${listing.title} | MandalGo`
         });
-
     })
 );
-
 
 // ===============================
 // EDIT ROUTE
@@ -131,7 +134,8 @@ router.get(
         const listing = await Listing.findById(id);
 
         if (!listing) {
-            throw new ExpressError(404, "Listing not found!");
+            req.flash("error", "Listing you request for does not exist");
+            return res.redirect("/listings");
         }
 
         res.render("listing/edit.ejs", {
@@ -165,7 +169,7 @@ router.put(
                 runValidators: true
             }
         );
-
+        req.flash("success", "Listing was updated!");
         res.redirect(`/listings/${id}`);
 
     })
@@ -187,6 +191,7 @@ router.delete(
             await Listing.findByIdAndDelete(id);
 
         console.log(deletedListing);
+        req.flash("success", "listing deleted!");
 
         res.redirect("/listings");
 

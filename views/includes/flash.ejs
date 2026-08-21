@@ -1,0 +1,38 @@
+<% if (success && success.length) { %>
+    <div class="flash-message flash-success">
+        <span>✓ <%= success %></span>
+
+        <button
+            type="button"
+            class="flash-close"
+            onclick="this.parentElement.remove()"
+            aria-label="Close"
+        >
+            ×
+        </button>
+    </div>
+<% } %>
+
+<% if (error && error.length) { %>
+
+    <div class="flash-message flash-error">
+        <span>⚠ <%= error %></span>
+
+        <button
+            type="button"
+            class="flash-close"
+            onclick="this.parentElement.remove()"
+        >
+            ×
+        </button>
+    </div>
+
+<% } %>
+
+<script>
+    setTimeout(() => {
+        document.querySelectorAll(".flash-message").forEach((flash) => {
+            flash.remove();
+        });
+    }, 3000);
+</script>

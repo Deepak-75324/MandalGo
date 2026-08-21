@@ -1,0 +1,66 @@
+.flash-message {
+    position: fixed;
+    top: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: fit-content;
+    max-width: 90%;
+
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    padding: 12px 15px;
+
+    border-radius: 8px;
+
+    font-size: 15px;
+    font-weight: 500;
+
+    z-index: 9999;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+
+/* Success */
+
+.flash-success {
+    background: #e8f7ee;
+    color: #176b3a;
+    border: 1px solid #b9e4c9;
+}
+
+
+/* Error */
+
+.flash-error {
+    background: #fdecec;
+    color: #b42318;
+    border: 1px solid #f5b5b0;
+}
+
+
+/* Close button */
+
+.flash-close {
+    border: none;
+    background: transparent;
+
+    color: inherit;
+
+    font-size: 22px;
+    font-weight: bold;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    padding: 0 2px;
+}
+
+
+.flash-close:hover {
+    opacity: 0.6;
+}
