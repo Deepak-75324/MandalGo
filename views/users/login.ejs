@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | MandalGo</title>
+    <link rel="stylesheet" href="/signup-login.css">
+    <link rel="stylesheet" href="/flash.css">
+</head>
+<body>
+    <%- include("../includes/flash.ejs") %>
+    <div class="login-container">
+
+        <div class="login-card">
+
+            <!-- MandalGo Logo -->
+
+            <div class="logo">
+
+                <img
+                    src="/images/mg-new-logo.png"
+                    alt="MandalGo"
+                >
+
+            </div>
+
+
+            <!-- Heading -->
+
+            <h1 class="login-title">
+                Welcome Back
+            </h1>
+
+            <p class="login-subtitle">
+                Login to continue exploring the world with MandalGo
+            </p>
+
+
+            <!-- Login Form -->
+
+            <form
+                action="/login"
+                method="POST"
+            >
+
+                <!-- Username -->
+
+                <div class="form-group">
+
+                    <label for="username">
+                        Username
+                    </label>
+
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Enter your username"
+                        autocomplete="username"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Password -->
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Login Button -->
+
+                <button
+                    type="submit"
+                    class="login-btn"
+                >
+                    Login
+                </button>
+
+            </form>
+
+
+            <!-- Signup -->
+
+            <p class="signup-text">
+
+                Don't have an account?
+
+                <a href="/signup">
+                    Create Account
+                </a>
+
+            </p>
+
+        </div>
+
+    </div>
+    
+</body>
+</html>

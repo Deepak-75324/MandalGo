@@ -1,67 +1,141 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const mongoose = require('mongoose');
-const path = require('path');
-const methodOverride = require('method-override');
+const mongoose = require("mongoose");
+const path = require("path");
+const methodOverride = require("method-override");
+const session = require("express-session");
 const flash = require("connect-flash");
 
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
 
-const listings = require("./routers/listing.js");
-const reviews = require("./routers/review.js");
-// const ejsMate = require("ejs-Mate");   // for
-const session = require("express-session");
+const User = require("./models/user.js");
+const ExpressError = require("./utils/ExpressError.js");
 
-app.set("view engine","ejs");
-app.set("views",path.join(__dirname,"views"));
+const listingRouter = require("./routers/listing.js");
+const reviewRouter = require("./routers/review.js");
+const userRouter = require("./routers/user.js");
+
+// APP CONFIGURATION
+
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+
+// MIDDLEWARE
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "public")));
 app.use(methodOverride("_method"));
 
-// app.engine("ejs", ejsMate);
-// connect to mongo db
+// DATABASE CONNECTION
 main()
-.then((res) => {
-    console.log("connect to DB");
-})
-.catch(err => console.log(err));
+    .then(() => {
+        console.log("connect to DB");
+    })
+    .catch((err) => {
+        console.log("Database connection error:", err);
+    });
 
 async function main() {
-    await mongoose.connect('mongodb://127.0.0.1:27017/wonderlust');
+    await mongoose.connect(
+        "mongodb://127.0.0.1:27017/wonderlust"
+    );
 }
-app.use(flash());
+// SESSION CONFIGURATION
+
 const sessionOptions = {
     secret: "mysupersecretcode",
-    resave: true,
-    saveUninitialized: true,
+
+    resave: false,
+
+    saveUninitialized: false,
 
     cookie: {
-        expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
         maxAge: 7 * 24 * 60 * 60 * 1000,
-        httpOnly: true,
-    },
+
+        httpOnly: true
+    }
 };
+
+// SESSION + FLASH
 app.use(session(sessionOptions));
 
-app.get('/', (req,res) => {
-    res.send("Hi i am coder..")
-});
-//flash
+app.use(flash());
+
+// PASSPORT CONFIGURATION
+
+// Initialize Passport
+app.use(passport.initialize());
+
+// Enable persistent login sessions
+app.use(passport.session());
+
+
+// Local username/password authentication
+passport.use(
+    new LocalStrategy(User.authenticate())
+);
+
+
+// Store logged-in user's ID in session
+passport.serializeUser(
+    User.serializeUser()
+);
+
+
+// Retrieve user from session
+passport.deserializeUser(
+    User.deserializeUser()
+);
+
+// FLASH MESSAGE MIDDLEWARE
 app.use((req, res, next) => {
+
     res.locals.success = req.flash("success");
+
     res.locals.error = req.flash("error");
+
+    // Make logged-in user available in EJS
+    res.locals.currentUser = req.user;
+
     next();
 });
 
-app.use("/listings", listings);
-app.use("/listings/:id/reviews", reviews);
+// HOME ROUTE
 
+app.get("/", (req, res) => {
 
-// if not match in any route then
-app.all("/{*splat}", (req, res, next) => {
-    next(new ExpressError(404, "Page not found!"));
+    res.send("Hi I am coder..");
+
 });
 
-// Custom error handling
+// LISTING ROUTES
+app.use(
+    "/listings",
+    listingRouter
+);
+// REVIEW ROUTES
+app.use(
+    "/listings/:id/reviews",
+    reviewRouter
+);
+// USER / AUTHENTICATION ROUTES
+app.use(
+    "/",
+    userRouter
+);
+// 404 ROUTE
+app.all("/{*splat}", (req, res, next) => {
+
+    next(
+        new ExpressError(
+            404,
+            "Page not found!"
+        )
+    );
+
+});
+
+// CUSTOM ERROR HANDLER
 app.use((err, req, res, next) => {
 
     let {
@@ -69,12 +143,25 @@ app.use((err, req, res, next) => {
         message = "Something went wrong!"
     } = err;
 
-    res.status(statusCode).render("error.ejs", {
-        message,
-        statusCode
-    });
+    res.status(statusCode).render(
+        "error.ejs",
+        {
+            message,
+            statusCode
+        }
+    );
 
 });
-app.listen(8080,"0.0.0.0", () => {
-    console.log("app is listening on port 8080");
-});
+// START SERVER
+
+app.listen(
+    8080,
+    "0.0.0.0",
+    () => {
+
+        console.log(
+            "app is listening on port 8080"
+        );
+
+    }
+);

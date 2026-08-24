@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up | MandalGo</title>
+    <link rel="stylesheet" href="/signup-login.css">
+    <link rel="stylesheet" href="/flash.css">
+</head>
+<body>
+    <%- include("../includes/flash.ejs") %>
+   <div class="signup-container">
+
+        <div class="signup-card">
+
+            <!-- Logo -->
+            <div class="logo">
+
+                <img
+                    src="/images/mg-new-logo.png"
+                    alt="MandalGo"
+                >
+
+            </div>
+
+
+            <!-- Heading -->
+
+            <h1 class="signup-title">
+                Create Account
+            </h1>
+
+            <p class="signup-subtitle">
+                Join MandalGo and start exploring the world
+            </p>
+
+
+            <!-- Signup Form -->
+
+            <form
+                action="/signup"
+                method="POST"
+                class="signup-form"
+            >
+
+                <!-- Username -->
+
+                <div class="form-group">
+
+                    <label for="username">
+                        Username
+                    </label>
+
+                    <input
+                        name="username"
+                        id="username"
+                        type="text"
+                        placeholder="Enter your username"
+                        autocomplete="username"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Email -->
+
+                <div class="form-group">
+
+                    <label for="email">
+                        Email Address
+                    </label>
+
+                    <input
+                        name="email"
+                        id="email"
+                        type="email"
+                        placeholder="Enter your email"
+                        autocomplete="email"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Password -->
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <input
+                        name="password"
+                        id="password"
+                        type="password"
+                        placeholder="Create a password"
+                        autocomplete="new-password"
+                        minlength="6"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Submit -->
+
+                <button
+                    type="submit"
+                    class="submit-btn"
+                >
+                    Create Account
+                </button>
+
+            </form>
+
+
+            <!-- Login -->
+
+            <p class="login-text">
+
+                Already have an account?
+
+                <a href="/login">
+                    Login
+                </a>
+
+            </p>
+
+        </div>
+
+    </div>    
+</body>
+</html>

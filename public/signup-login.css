@@ -1,0 +1,292 @@
+/* =========================================
+   MANDALGO AUTHENTICATION PAGES
+   SIGNUP + LOGIN
+========================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    background: linear-gradient(
+        135deg,
+        #eef4ff,
+        #f8fafc
+    );
+
+    color: #1f2937;
+}
+
+
+/* =========================================
+   CONTAINER
+   Shared by Signup + Login
+========================================= */
+
+.signup-container,
+.login-container {
+    width: 100%;
+    max-width: 430px;
+
+    padding: 20px;
+}
+
+
+/* =========================================
+   CARD
+   Shared by Signup + Login
+========================================= */
+
+.signup-card,
+.login-card {
+    padding: 38px 35px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 15px 40px rgba(20, 33, 61, 0.10);
+}
+
+
+/* =========================================
+   LOGO
+   Shared by Signup + Login
+========================================= */
+
+.logo {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    margin-bottom: 20px;
+}
+
+.logo img {
+    width: 100px;
+    height: 55px;
+
+    object-fit: contain;
+}
+
+
+/* =========================================
+   HEADINGS
+   Signup + Login
+========================================= */
+
+.signup-title,
+.login-title {
+    text-align: center;
+
+    margin-bottom: 8px;
+
+    color: #14213d;
+
+    font-size: 28px;
+    font-weight: 700;
+}
+
+
+.signup-subtitle,
+.login-subtitle {
+    text-align: center;
+
+    margin-bottom: 30px;
+
+    color: #6b7280;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================
+   FORM
+========================================= */
+
+.signup-form,
+.login-form {
+    width: 100%;
+}
+
+
+/* =========================================
+   FORM GROUP
+========================================= */
+
+.form-group {
+    margin-bottom: 19px;
+}
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #374151;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+
+/* =========================================
+   INPUT
+   Shared by Signup + Login
+========================================= */
+
+.form-group input {
+    width: 100%;
+    height: 46px;
+
+    padding: 0 14px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 9px;
+
+    outline: none;
+
+    background: #ffffff;
+
+    color: #1f2937;
+
+    font-size: 14px;
+
+    transition: 0.2s ease;
+}
+
+.form-group input::placeholder {
+    color: #9ca3af;
+}
+
+.form-group input:hover {
+    border-color: #9ca3af;
+}
+
+.form-group input:focus {
+    border-color: #2563eb;
+
+    box-shadow:
+        0 0 0 3px rgba(37, 99, 235, 0.10);
+}
+
+
+/* =========================================
+   BUTTONS
+   Signup + Login
+========================================= */
+
+.submit-btn,
+.login-btn {
+    width: 100%;
+    height: 47px;
+
+    margin-top: 8px;
+
+    border: none;
+
+    border-radius: 9px;
+
+    background: #14213d;
+
+    color: #ffffff;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.submit-btn:hover,
+.login-btn:hover {
+    background: #1e3157;
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 6px 15px rgba(20, 33, 61, 0.20);
+}
+
+.submit-btn:active,
+.login-btn:active {
+    transform: translateY(0);
+}
+
+
+/* =========================================
+   BOTTOM LINKS
+========================================= */
+
+.login-text,
+.signup-text {
+    margin-top: 23px;
+
+    text-align: center;
+
+    color: #6b7280;
+
+    font-size: 14px;
+}
+
+.login-text a,
+.signup-text a {
+    color: #2563eb;
+
+    font-weight: 600;
+
+    text-decoration: none;
+}
+
+.login-text a:hover,
+.signup-text a:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 500px) {
+
+    .signup-container,
+    .login-container {
+        padding: 15px;
+    }
+
+    .signup-card,
+    .login-card {
+        padding: 30px 23px;
+
+        border-radius: 15px;
+    }
+
+    .signup-title,
+    .login-title {
+        font-size: 25px;
+    }
+
+    .signup-subtitle,
+    .login-subtitle {
+        font-size: 13px;
+    }
+}
