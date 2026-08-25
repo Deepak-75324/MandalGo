@@ -24,8 +24,13 @@ router.post("/signup", wrapAsync(async (req, res) => {
             password
         );
         // console.log(registeredUser);
-        req.flash("success", "Welcome to MandalGo!");
-        res.redirect("/listings");
+        req.login(registeredUser, (err) => {
+            if(err){
+                return next(err);
+            }
+            req.flash("success", "Welcome to MandalGo!");
+            res.redirect("/listings");
+        })
     } catch (err) {
         req.flash("error", err.message);
         res.redirect("/signup");
@@ -51,5 +56,13 @@ router.post(
         res.redirect("/listings");
     }
 );
+router.post("/logout", (req, res, next) => {
+    req.logout((err) => {
+        if (err) return next(err);
+
+        req.flash("success", "You are logged out!");
+        res.redirect("/listings");
+    });
+});
 
 module.exports = router;

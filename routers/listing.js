@@ -7,6 +7,7 @@ const ExpressError = require("../utils/ExpressError.js");
 const { listingSchema } = require("../schema.js");
 
 const Listing = require("../models/listing.js");
+const { isLoggedIn } = require("../middleware.js");
 
 
 // ===============================
@@ -60,8 +61,7 @@ router.get("/", wrapAsync(async (req, res) => {
 // IMPORTANT: Must be BEFORE /:id
 // ===============================
 
-router.get("/new", (req, res) => {
-
+router.get("/new", isLoggedIn, (req, res) => {
     res.render("listing/new.ejs", {
         title: "Add Listing | MandalGo"
     });
@@ -76,6 +76,7 @@ router.get("/new", (req, res) => {
 
 router.post(
     "/",
+    isLoggedIn,
     validateListing,
     wrapAsync(async (req, res) => {
 
@@ -127,6 +128,7 @@ router.get(
 
 router.get(
     "/:id/edit",
+    isLoggedIn,
     wrapAsync(async (req, res) => {
 
         const { id } = req.params;
@@ -154,6 +156,7 @@ router.get(
 
 router.put(
     "/:id",
+    isLoggedIn,
     validateListing,
     wrapAsync(async (req, res) => {
 
@@ -183,6 +186,7 @@ router.put(
 
 router.delete(
     "/:id",
+    isLoggedIn,
     wrapAsync(async (req, res) => {
 
         const { id } = req.params;

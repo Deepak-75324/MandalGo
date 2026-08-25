@@ -13,50 +13,269 @@
 
 <body>
 
-    <!-- Navbar -->
-    <nav class="navbar">
+    <!-- =========================
+         NAVBAR
+    ========================== -->
 
-        <div class="nav-container">
+    <nav class="main-navbar">
+
+        <div class="navbar-top">
 
             <!-- Logo -->
-            <a href="/listings" class="logo">
+            <a href="/listings" class="navbar-logo">
+
                 <img
                     src="/images/mg-new-logo.png"
                     alt="MandalGo"
                 >
+
             </a>
-            <!-- Search -->
-        <form action="/listings" method="GET" class="search-form">
 
-            <input
-                type="text"
-                name="search"
-                placeholder="Search destinations..."
-                autocomplete="off"
-            >
 
-            <button type="submit" class="search-btn">
-                🔍
-            </button>
+            <!-- Categories -->
+            <div class="nav-categories">
 
-        </form>
-            <!-- Navigation -->
-            <div class="nav-links">
-
-                <a href="#listings">
-                    Explore
+                <a href="/listings" class="category active">
+                    <span class="category-icon">🌎</span>
+                    <span>All</span>
                 </a>
 
-                <a href="/listings/new" class="add-btn">
-                    + Add Listing
+                <a href="/listings?category=homes" class="category">
+                    <span class="category-icon">🏠</span>
+                    <span>Homes</span>
                 </a>
 
-                <a href="/login" class="add-btn">
-                    Login
+                <a href="/listings?category=experiences" class="category">
+                    <span class="category-icon">🎈</span>
+                    <span>Experiences</span>
+                </a>
+
+                <a href="/listings?category=services" class="category">
+                    <span class="category-icon">🛎️</span>
+                    <span>Services</span>
                 </a>
 
             </div>
 
+
+            <!-- Right Side -->
+            <div class="navbar-right">
+
+                <a
+                    href="/listings/new"
+                    class="host-link"
+                >
+                    Become a host
+                </a>
+
+                <button
+                    type="button"
+                    class="icon-btn"
+                >
+                    🌐
+                </button>
+
+
+                <!-- User Menu -->
+                <div class="user-menu">
+
+                    <button
+                        type="button"
+                        class="menu-btn"
+                        onclick="toggleUserMenu()"
+                    >
+                        ☰
+                    </button>
+
+
+                    <div
+                        class="user-dropdown"
+                        id="userDropdown"
+                    >
+
+                        <% if (currentUser) { %>
+
+                            <!-- Logged in -->
+                            <div class="user-welcome">
+
+                                👋 Hello,
+                                <strong>
+                                    <%= currentUser.username.split(" ")[0] %>
+                                </strong>
+
+                            </div>
+
+                            <div class="dropdown-divider"></div>
+
+
+                            <!-- Logout -->
+                            <form
+                                action="/logout"
+                                method="POST"
+                            >
+
+                                <button
+                                    type="submit"
+                                    class="dropdown-item logout-btn"
+                                >
+                                    🚪 Logout
+                                </button>
+
+                            </form>
+
+
+                        <% } else { %>
+
+                            <!-- Not logged in -->
+
+                            <a
+                                href="/login"
+                                class="dropdown-item"
+                            >
+                                🔐 Login
+                            </a>
+
+                            <a
+                                href="/signup"
+                                class="dropdown-item"
+                            >
+                                ✨ Sign up
+                            </a>
+
+                        <% } %>
+
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
-        <%- include("./flash.ejs") %>
+
+
+        <!-- =========================
+             SEARCH BAR
+        ========================== -->
+
+        <div class="search-wrapper">
+
+            <form
+                action="/listings"
+                method="GET"
+                class="airbnb-search"
+            >
+
+                <!-- Where -->
+                <div class="search-item">
+
+                    <label>
+                        Where
+                    </label>
+
+                    <input
+                        type="text"
+                        name="search"
+                        placeholder="Search destinations"
+                        autocomplete="off"
+                    >
+
+                </div>
+
+
+                <div class="search-divider"></div>
+
+
+                <!-- When -->
+                <div class="search-item">
+
+                    <label>
+                        When
+                    </label>
+
+                    <input
+                        type="date"
+                        id="date"
+                        name="date"
+                        placeholder="Add dates"
+                    >
+
+                </div>
+
+
+                <div class="search-divider"></div>
+
+
+                <!-- Who -->
+                <div class="search-item">
+
+                    <label>
+                        Who
+                    </label>
+
+                    <input
+                        type="text"
+                        placeholder="Add guests"
+                    >
+
+                </div>
+
+
+                <!-- Search Button -->
+                <button
+                    type="submit"
+                    class="search-button"
+                >
+                    🔍
+                </button>
+
+            </form>
+
+        </div>
+
     </nav>
+
+
+    <!-- =========================
+         FLASH MESSAGE
+    ========================== -->
+
+    <%- include("./flash.ejs") %>
+
+
+    <!-- User Menu JavaScript -->
+
+    <script>
+
+        function toggleUserMenu() {
+
+            const dropdown =
+                document.getElementById("userDropdown");
+
+            dropdown.classList.toggle("show");
+
+        }
+
+
+        // Close dropdown when clicking outside
+
+        document.addEventListener("click", function(event) {
+
+            const userMenu =
+                document.querySelector(".user-menu");
+
+            const dropdown =
+                document.getElementById("userDropdown");
+
+            if (
+                userMenu &&
+                dropdown &&
+                !userMenu.contains(event.target)
+            ) {
+
+                dropdown.classList.remove("show");
+
+            }
+
+        });
+
+    </script>

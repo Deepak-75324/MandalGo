@@ -17,302 +17,686 @@ body {
     background: #f8f8f8;
     color: #222;
 }
-/* ================================
-   NAVBAR
-================================ */
+/* =========================================
+   MANDALGO - PREMIUM NAVBAR
+========================================= */
 
-.navbar {
+.main-navbar {
     width: 100%;
-    height: 70px;
-    background: #fff;
-    border-bottom: 1px solid #eee;
+    background: #ffffff;
+
+    border-bottom: 1px solid #eeeeee;
+
+    padding: 14px 5%;
+
     position: sticky;
     top: 0;
+    left: 0;
     z-index: 1000;
 }
 
-.nav-container {
-    max-width: 100%;
-    height: 100%;
-    margin: auto;
-    padding: 0 20px;
+
+/* =========================================
+   TOP NAVBAR
+========================================= */
+
+.navbar-top {
+    max-width: 1450px;
+
+    margin: 0 auto;
+
+    min-height: 65px;
 
     display: flex;
     align-items: center;
-    gap: 25px;
+    justify-content: space-between;
 }
 
 
-/* ================================
+/* =========================================
    LOGO
-================================ */
+========================================= */
 
-.navbar .logo {
+.navbar-logo {
+    width: 180px;
+
     display: flex;
     align-items: center;
-    flex-shrink: 0;
+
     text-decoration: none;
-    margin: 0;
 }
 
-.navbar .logo img {
-    width: 120px;
-    height: 45px;
+.navbar-logo img {
+    width: 125px;
+    height: 55px;
+
     object-fit: contain;
+
+    transition: transform 0.2s ease;
+}
+
+.navbar-logo:hover img {
+    transform: scale(1.03);
+}
+
+
+/* =========================================
+   CATEGORY NAVIGATION
+========================================= */
+
+.nav-categories {
+    display: flex;
+    align-items: center;
+
+    gap: 38px;
+
+    height: 70px;
+}
+
+.category {
+    position: relative;
+
+    min-width: 70px;
+    height: 68px;
+
+    padding: 5px 8px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 5px;
+
+    color: #717171;
+
+    text-decoration: none;
+
+    font-size: 13px;
+    font-weight: 500;
+
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.category-icon {
+    font-size: 25px;
+
+    line-height: 1;
+}
+
+.category:hover {
+    color: #222222;
+
+    transform: translateY(-1px);
+}
+
+.category.active {
+    color: #222222;
+
+    font-weight: 600;
+}
+
+
+/* Active underline */
+
+.category.active::after {
+    content: "";
+
+    position: absolute;
+
+    bottom: 0;
+
+    left: 10px;
+    right: 10px;
+
+    height: 2px;
+
+    background: #222222;
+
+    border-radius: 10px;
+}
+
+
+/* =========================================
+   RIGHT NAVIGATION
+========================================= */
+
+.navbar-right {
+    width: 220px;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 5px;
+}
+
+
+/* Become a host */
+
+.host-link {
+    padding: 12px 15px;
+
+    border-radius: 25px;
+
+    color: #222222;
+
+    text-decoration: none;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    white-space: nowrap;
+
+    transition: background 0.2s ease;
+}
+
+.host-link:hover {
+    background: #f5f5f5;
+}
+
+
+/* =========================================
+   LANGUAGE BUTTON
+========================================= */
+
+.icon-btn {
+    width: 42px;
+    height: 42px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: transparent;
+
+    color: #222;
+
+    font-size: 18px;
+
+    cursor: pointer;
+
+    transition: background 0.2s ease;
+}
+
+.icon-btn:hover {
+    background: #f5f5f5;
+}
+
+
+/* =========================================
+   MENU BUTTON
+========================================= */
+
+.user-menu {
+    position: relative;
+}
+
+.menu-btn {
+    width: 48px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #dddddd;
+
+    border-radius: 25px;
+
+    background: #ffffff;
+
+    color: #333;
+
+    font-size: 18px;
+
+    cursor: pointer;
+
+    transition:
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+.menu-btn:hover {
+    background: #f7f7f7;
+
+    box-shadow:
+        0 3px 10px rgba(0, 0, 0, 0.10);
+}
+
+
+/* =========================================
+   USER DROPDOWN
+========================================= */
+
+.user-dropdown {
+    display: none;
+
+    position: absolute;
+
+    top: 52px;
+    right: 0;
+
+    width: 230px;
+
+    padding: 8px;
+
+    background: #ffffff;
+
+    border: 1px solid #eeeeee;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 8px 28px rgba(0, 0, 0, 0.15);
+
+    z-index: 2000;
+
+    animation: dropdownOpen 0.15s ease;
+}
+
+.user-dropdown.show {
     display: block;
 }
 
 
-/* ================================
-   SEARCH BAR
-================================ */
+/* Dropdown animation */
 
-.nav-container {
-    position: relative;
+@keyframes dropdownOpen {
+
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
 }
 
-.search-form {
-    /* Center the search box exactly in the middle of the navbar (desktop) */
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
 
-    width: 500px;
-    max-width: 500px;
+/* User welcome */
+
+.user-welcome {
+    padding: 13px 12px;
+
+    color: #333333;
+
+    font-size: 14px;
+
+    line-height: 1.4;
+}
+
+.user-welcome strong {
+    color: #14213d;
+}
+
+
+/* Divider */
+
+.dropdown-divider {
+    height: 1px;
+
+    margin: 4px 0;
+
+    background: #eeeeee;
+}
+
+
+/* Dropdown items */
+
+.dropdown-item {
+    width: 100%;
+
+    display: block;
+
+    padding: 12px;
+
+    border: none;
+
+    border-radius: 9px;
+
+    background: transparent;
+
+    color: #222222;
+
+    text-decoration: none;
+
+    text-align: left;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+    transition: background 0.2s ease;
+}
+
+.dropdown-item:hover {
+    background: #f5f5f5;
+}
+
+
+/* Logout */
+
+.logout-btn {
+    color: #333333;
+}
+
+
+/* =========================================
+   SEARCH AREA
+========================================= */
+
+.search-wrapper {
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+
+    margin-top: 12px;
+}
+
+
+/* Search bar */
+
+.airbnb-search {
+    width: min(850px, 90%);
+
+    min-height: 66px;
 
     display: flex;
     align-items: center;
 
-    height: 42px;
+    background: #ffffff;
 
-    border: 1px solid #ddd;
-    border-radius: 22px;
+    border: 1px solid #dddddd;
+
+    border-radius: 35px;
+
+    box-shadow:
+        0 3px 12px rgba(0, 0, 0, 0.08);
 
     overflow: hidden;
 
-    background: #f8f8f8;
-
-    transition: 0.2s ease;
+    transition:
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
 }
 
-.search-form:focus-within {
-    background: #fff;
-    border-color: #aaa;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+.airbnb-search:hover {
+    border-color: #cccccc;
+
+    box-shadow:
+        0 5px 18px rgba(0, 0, 0, 0.12);
 }
 
 
-.search-form input {
+/* =========================================
+   SEARCH ITEMS
+========================================= */
+
+.search-item {
     flex: 1;
 
+    min-width: 0;
+
+    padding: 10px 25px;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+}
+
+.search-item label {
+    margin-bottom: 4px;
+
+    color: #222222;
+
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.search-item input {
     width: 100%;
 
-    height: 100%;
+    padding: 0;
 
     border: none;
     outline: none;
 
     background: transparent;
 
-    padding: 0 16px;
+    color: #333333;
+
+    font-family: inherit;
 
     font-size: 14px;
 }
 
-
-.search-form input::placeholder {
-    color: #888;
+.search-item input::placeholder {
+    color: #717171;
 }
 
 
-/* Search button */
+/* =========================================
+   SEARCH DIVIDERS
+========================================= */
 
-.search-btn {
-    width: 48px;
-    height: 100%;
+.search-divider {
+    width: 1px;
+
+    height: 32px;
+
+    flex-shrink: 0;
+
+    background: #dddddd;
+}
+
+
+/* =========================================
+   SEARCH BUTTON
+========================================= */
+
+.search-button {
+    width: 52px;
+    height: 52px;
+
+    flex-shrink: 0;
+
+    margin-right: 7px;
 
     border: none;
 
-    background: #111;
+    border-radius: 50%;
+
+    background: #14213d;
 
     color: white;
+
+    font-size: 18px;
 
     cursor: pointer;
 
-    font-size: 16px;
-
-    transition: 0.2s ease;
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
-.search-btn:hover {
-    background: #e63946;
+.search-button:hover {
+    background: #1e3157;
+
+    transform: scale(1.05);
+
+    box-shadow:
+        0 4px 12px rgba(20, 33, 61, 0.25);
 }
 
-
-/* ================================
-   NAV LINKS
-================================ */
-
-.nav-links {
-    margin-left: auto;
-
-    display: flex;
-    align-items: center;
-
-    gap: 22px;
-
-    flex-shrink: 0;
-}
-
-.nav-links a {
-    text-decoration: none;
-
-    color: #222;
-
-    font-size: 14px;
-
-    font-weight: 600;
-
-    transition: 0.2s ease;
-}
-
-.nav-links a:hover {
-    color: #e63946;
+.search-button:active {
+    transform: scale(0.98);
 }
 
 
-/* Add Listing */
+/* =========================================
+   TABLET
+========================================= */
 
-.nav-links .add-btn {
-    padding: 10px 15px;
+@media (max-width: 1100px) {
 
-    border-radius: 8px;
-
-    background: #111;
-
-    color: white;
-}
-
-.nav-links .add-btn:hover {
-    background: #e63946;
-
-    color: white;
-}
-/* mobile */
-
-@media (max-width: 768px) {
-
-    .navbar {
-        height: auto;
+    .navbar-logo {
+        width: 140px;
     }
 
-    /* Keep everything in a single row on mobile */
-    .nav-container {
-        flex-direction: row;
-        align-items: center;
-        flex-wrap: nowrap;
-        padding: 10px 14px;
-        gap: 10px;
+    .navbar-right {
+        width: 160px;
     }
 
-    .navbar .logo img {
-        width: 90px;
-        height: 34px;
+    .nav-categories {
+        gap: 18px;
     }
 
-    /* Compact search bar — keep original mobile behavior */
-    .search-form {
-        position: static;
-        left: auto;
-        transform: none;
-
-        flex: 1;
-        max-width: none;
-        height: 34px;
-        min-width: 0;
+    .host-link {
+        display: none;
     }
 
-    .search-form input {
-        padding: 0 10px;
+    .airbnb-search {
+        width: 85%;
+    }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 700px) {
+
+    .main-navbar {
+        padding: 10px 15px;
+    }
+
+    .navbar-top {
+        min-height: 55px;
+    }
+
+    .navbar-logo {
+        width: auto;
+    }
+
+    .navbar-logo img {
+        width: 95px;
+        height: 45px;
+    }
+
+    /* Hide categories */
+
+    .nav-categories {
+        display: none;
+    }
+
+    .navbar-right {
+        width: auto;
+    }
+
+    .host-link {
+        display: none;
+    }
+
+    .icon-btn {
+        display: none;
+    }
+
+
+    /* Search */
+
+    .search-wrapper {
+        margin-top: 8px;
+    }
+
+    .airbnb-search {
+        width: 100%;
+
+        min-height: 55px;
+
+        border-radius: 30px;
+    }
+
+    .search-item {
+        padding: 8px 15px;
+    }
+
+    .search-item label {
+        font-size: 10px;
+    }
+
+    .search-item input {
         font-size: 12px;
     }
 
-    .search-btn {
-        width: 34px;
-        font-size: 13px;
+
+    /* Hide extra search fields */
+
+    .search-item:nth-of-type(2),
+    .search-item:nth-of-type(3),
+    .search-divider {
+        display: none;
     }
 
-    /* Keep nav links in a single row */
-    .nav-links {
-        flex-direction: row;
-        align-items: center;
-        gap: 8px;
-        margin-left: 0;
+
+    /* Search button */
+
+    .search-button {
+        width: 44px;
+        height: 44px;
+
+        margin-right: 5px;
+
+        font-size: 16px;
     }
 
-    .nav-links a {
-        font-size: 12px;
-        text-align: center;
-        padding: 6px 8px;
-        border-radius: 8px;
-        white-space: nowrap;
+
+    /* Dropdown */
+
+    .user-dropdown {
+        right: 0;
+
+        width: 210px;
     }
 
-    .nav-links .add-btn {
-        padding: 8px 10px;
-        font-size: 12px;
+}
+
+
+/* =========================================
+   VERY SMALL SCREEN
+========================================= */
+
+@media (max-width: 400px) {
+
+    .navbar-logo img {
+        width: 85px;
     }
-}
 
-.nav-links {
-    display: flex;
-    align-items: center;
+    .menu-btn {
+        width: 43px;
+        height: 38px;
+    }
 
-    gap: 30px;
-}
+    .airbnb-search {
+        min-height: 50px;
+    }
 
-.nav-links a {
-    text-decoration: none;
+    .search-item {
+        padding-left: 13px;
+    }
 
-    color: #333;
-
-    font-size: 14px;
-    font-weight: 600;
-
-    transition: 0.25s ease;
-}
-
-.nav-links a:hover {
-    color: #e63946;
-}
-
-.nav-links .add-btn {
-    background: #111;
-    color: white;
-
-    padding: 11px 18px;
-
-    border-radius: 25px;
-}
-
-.nav-links .add-btn:hover {
-    background: #e63946;
-    color: white;
-}
-
-/* Navbar logo */
-.navbar .logo {
-    display: flex;
-    align-items: center;
-    height: 40px;
-    text-decoration: none;
-}
-
-.navbar .logo img {
-    width: 150px;
-    height: 50px;
-    object-fit: contain;
-    display: block;
 }
 
 
