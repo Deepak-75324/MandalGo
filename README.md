@@ -2,25 +2,15 @@
 
 ### Explore the World. Discover Places. Plan Your Journey.
 
-MandalGo is a full-stack travel discovery and booking platform designed to make
-travel planning easier and more convenient.
-
-Users can explore destinations around the world, discover different types of
-accommodations and tourist places, view detailed listing information, and
-manage travel listings through a clean and responsive interface.
+MandalGo is a full-stack travel discovery and listing platform built with Node.js, Express.js, MongoDB, Mongoose, and EJS. It allows users to explore travel destinations, view detailed listings, create their own listings, manage listings they own, and share reviews with their actual user identity.
 
 ---
 
 ## ✈️ About MandalGo
 
-Travel planning often requires searching through multiple platforms to find
-hotels, resorts, villas, tourist attractions, and other places to stay or
-visit.
+MandalGo is designed to make travel discovery simple and convenient by bringing different types of travel stays and tourist destinations into one platform.
 
-**MandalGo** aims to bring these travel services together in one platform.
-
-The platform allows users to discover places around the world and explore
-different accommodation and travel options such as:
+Users can explore:
 
 - 🏨 Hotels
 - 🏝️ Resorts
@@ -30,37 +20,35 @@ different accommodation and travel options such as:
 - 🛏️ Hostels
 - 🏛️ Tourist Places
 
-MandalGo is designed to become a convenient platform for discovering
-destinations and planning future trips.
+Users can also create an account, log in, create travel listings, manage their own listings, and add reviews and ratings to places.
 
 ---
 
-## 🚀 Features
+# 🚀 Features
 
 ### 🌍 Explore Destinations
 
-Discover travel listings from different locations and countries around the
-world.
+Browse travel listings from different locations and countries.
 
 ### 🔎 Search & Discover
 
-Explore available travel listings and find suitable places for your trip.
+Explore available listings and find suitable places for your journey.
 
-### 🏨 Multiple Accommodation Types
+### 🏨 Multiple Listing Categories
 
-Listings can be categorized into:
+Listings can be categorized as:
 
 - Hotel
+- Resort
 - Villa
 - Apartment
-- Resort
 - Guesthouse
 - Hostel
 - Tourist Place
 
 ### 📋 Listing Details
 
-Each listing provides information such as:
+Each listing contains:
 
 - Title
 - Description
@@ -70,91 +58,155 @@ Each listing provides information such as:
 - Country
 - Category
 - Rating
+- Owner
 
-### ➕ Add Listing
+### 🔐 User Authentication
 
-Users can create new travel listings.
+Users can:
+
+- Create an account
+- Log in
+- Log out
+- Access protected features
+
+Authentication is implemented using Passport.js and sessions.
+
+### ➕ Create Listing
+
+Only authenticated users can create new travel listings.
+
+Each listing is automatically associated with the logged-in user.
 
 ### ✏️ Edit Listing
 
-Existing listings can be updated when information changes.
+Users can edit only the listings they own.
 
 ### 🗑️ Delete Listing
 
-Listings can be removed when they are no longer needed.
+Users can delete only their own listings.
 
-### ⭐ Ratings
+Ownership is verified using authorization middleware.
 
-Listings can display ratings to help users understand the quality of a place.
+### ⭐ Reviews & Ratings
 
-### 📱 Responsive Design
+Authenticated users can submit reviews and ratings for listings.
 
-The interface is designed to work across desktop and mobile screen sizes.
+Each review stores the actual logged-in user's ID as its author.
 
-### 🧩 Reusable EJS Components
+Reviews display:
 
-Common UI elements such as the navbar and footer are separated into reusable
-EJS components.
+- Username
+- User avatar initial
+- Rating
+- Comment
+- Review date
 
----
+### 🗑️ Review Authorization
 
-## 🛠️ Technologies Used
+Only the user who created a review can see the delete option for that review.
 
-### Frontend
+Review ownership is checked using the authenticated user's ID.
 
-- HTML5
-- CSS3
-- EJS
-- Responsive Web Design
+### 🔄 Login Redirect
 
-### Backend
+When a user tries to access a protected page without logging in, MandalGo remembers the requested page.
 
-- Node.js
-- Express.js
-
-### Database
-
-- MongoDB
-- Mongoose
-
-### Other Technologies
-
-- Method Override
-- RESTful Routing
-- EJS Partials
-
----
-
-## 📂 Project Structure
+After successful login, the user is redirected back to the page they originally wanted to access.
 
 ```text
+Create Listing
+      ↓
+Login Required
+      ↓
+Login Page
+      ↓
+Successful Login
+      ↓
+Create Listing Page
+
+### 📂 Project Structure
 MandalGo/
 │
 ├── app.js
-│
+├── middleware.js
 ├── package.json
 ├── package-lock.json
+├── README.md
 │
 ├── models/
-│   └── listing.js
+│   ├── listing.js
+│   ├── review.js
+│   └── user.js
+│
+├── routes/
+│   ├── listing.js
+│   ├── review.js
+│   └── user.js
 │
 ├── public/
+│   │
 │   ├── css/
-│   │   └── style.css
+│   │   ├── style.css
+│   │   ├── navbar.css
+│   │   ├── listing.css
+│   │   └── review.css
+│   │
+│   ├── js/
+│   │   └── script.js
 │   │
 │   └── images/
-│       └── mandalgo-logo.png
+│       ├── mandalgo-logo.png
+│       ├── hero1.jpg
+│       ├── hero2.jpg
+│       ├── hero3.jpg
+│       ├── hero4.jpg
+│       └── hero5.jpg
 │
 ├── views/
 │   │
 │   ├── includes/
 │   │   ├── header.ejs
-│   │   └── footer.ejs
+│   │   ├── footer.ejs
+│   │   └── review_form.ejs
 │   │
-│   └── listing/
-│       ├── index.ejs
-│       ├── show.ejs
-│       ├── new.ejs
-│       └── edit.ejs
+│   ├── listing/
+│   │   ├── index.ejs
+│   │   ├── show.ejs
+│   │   ├── new.ejs
+│   │   └── edit.ejs
+│   │
+│   └── users/
+│       ├── login.ejs
+│       └── signup.ejs
 │
-└── README.md
+├── init/
+│   ├── data.js
+│   └── index.js
+│
+└── .env
+
+### 🛠️ Technologies Used
+# Frontend
+HTML5
+CSS3
+JavaScript
+EJS
+Responsive Web Design
+# Backend
+Node.js
+Express.js
+Passport.js
+Passport-Local
+Express Session
+Database
+MongoDB
+Mongoose
+Validation & Middleware
+# Joi
+Custom Express Middleware
+Method Override
+RESTful Routing
+# Other
+Flash Messages
+EJS Partials
+git & github
