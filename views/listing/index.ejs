@@ -1,20 +1,150 @@
 <%- include("../includes/header") %>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <p class="hero-tag">DISCOVER YOUR NEXT DESTINATION</p>
+    <section class="hero-slider">
 
-            <h1>Find a place you'll<br>love to stay.</h1>
+    <div class="hero-slides">
 
-            <p class="hero-description">
-                Explore beautiful destinations, unique stays and
-                unforgettable experiences around the world.
-            </p>
+        <div class="hero-slide active"
+             style="background-image: url('/images/hero1.jpg');">
 
-            <a href="#listings" class="explore-btn">Explore Listings</a>
+            <div class="hero-overlay"></div>
+
+            <div class="hero-content">
+                <p class="hero-tag">DISCOVER YOUR NEXT DESTINATION</p>
+
+                <h1>Find a place you'll<br>love to stay.</h1>
+
+                <p class="hero-description">
+                    Explore beautiful destinations, unique stays and
+                    unforgettable experiences around the world.
+                </p>
+
+                <a href="#listings" class="explore-btn">
+                    Explore Listings
+                </a>
+            </div>
+
         </div>
-    </section>
+
+
+        <div class="hero-slide"
+             style="background-image: url('/images/hero2.jpg');">
+
+            <div class="hero-overlay"></div>
+
+            <div class="hero-content">
+                <p class="hero-tag">DISCOVER YOUR NEXT DESTINATION</p>
+
+                <h1>Find a place you'll<br>love to stay.</h1>
+
+                <p class="hero-description">
+                    Explore beautiful destinations, unique stays and
+                    unforgettable experiences around the world.
+                </p>
+
+                <a href="#listings" class="explore-btn">
+                    Explore Listings
+                </a>
+            </div>
+
+        </div>
+
+
+        <div class="hero-slide"
+             style="background-image: url('/images/hero3.jpg');">
+
+            <div class="hero-overlay"></div>
+
+            <div class="hero-content">
+                <p class="hero-tag">DISCOVER YOUR NEXT DESTINATION</p>
+
+                <h1>Find a place you'll<br>love to stay.</h1>
+
+                <p class="hero-description">
+                    Explore beautiful destinations, unique stays and
+                    unforgettable experiences around the world.
+                </p>
+
+                <a href="#listings" class="explore-btn">
+                    Explore Listings
+                </a>
+            </div>
+
+        </div>
+
+
+        <div class="hero-slide"
+             style="background-image: url('/images/hero4.webp');">
+
+            <div class="hero-overlay"></div>
+
+            <div class="hero-content">
+                <p class="hero-tag">DISCOVER YOUR NEXT DESTINATION</p>
+
+                <h1>Find a place you'll<br>love to stay.</h1>
+
+                <p class="hero-description">
+                    Explore beautiful destinations, unique stays and
+                    unforgettable experiences around the world.
+                </p>
+
+                <a href="#listings" class="explore-btn">
+                    Explore Listings
+                </a>
+            </div>
+
+        </div>
+
+
+        <div class="hero-slide"
+             style="background-image: url('/images/hero5.jpg');">
+
+            <div class="hero-overlay"></div>
+
+            <div class="hero-content">
+                <p class="hero-tag">DISCOVER YOUR NEXT DESTINATION</p>
+
+                <h1>Find a place you'll<br>love to stay.</h1>
+
+                <p class="hero-description">
+                    Explore beautiful destinations, unique stays and
+                    unforgettable experiences around the world.
+                </p>
+
+                <a href="#listings" class="explore-btn">
+                    Explore Listings
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Previous Button -->
+    <button class="hero-prev" id="heroPrev">
+        ❮
+    </button>
+
+
+    <!-- Next Button -->
+    <button class="hero-next" id="heroNext">
+        ❯
+    </button>
+
+
+    <!-- Dots -->
+    <div class="hero-dots">
+
+        <button class="hero-dot active" data-slide="0"></button>
+        <button class="hero-dot" data-slide="1"></button>
+        <button class="hero-dot" data-slide="2"></button>
+        <button class="hero-dot" data-slide="3"></button>
+        <button class="hero-dot" data-slide="4"></button>
+
+    </div>
+
+</section>
 
     <!-- Listings -->
     <main class="container" id="listings">
@@ -102,3 +232,159 @@
 
 </body>
 </html>
+
+<script>
+
+    const slides = document.querySelectorAll(".hero-slide");
+    const dots = document.querySelectorAll(".hero-dot");
+
+    const nextBtn = document.getElementById("heroNext");
+    const prevBtn = document.getElementById("heroPrev");
+
+    let currentSlide = 0;
+    let autoSlide;
+
+
+    function showSlide(index) {
+
+        if (index >= slides.length) {
+            currentSlide = 0;
+        }
+
+        else if (index < 0) {
+            currentSlide = slides.length - 1;
+        }
+
+        else {
+            currentSlide = index;
+        }
+
+
+        slides.forEach((slide) => {
+            slide.classList.remove("active");
+        });
+
+
+        dots.forEach((dot) => {
+            dot.classList.remove("active");
+        });
+
+
+        slides[currentSlide].classList.add("active");
+
+        dots[currentSlide].classList.add("active");
+    }
+
+
+    function nextSlide() {
+        showSlide(currentSlide + 1);
+    }
+
+
+    function previousSlide() {
+        showSlide(currentSlide - 1);
+    }
+
+
+    function startAutoSlide() {
+
+        clearInterval(autoSlide);
+
+        autoSlide = setInterval(() => {
+            nextSlide();
+        }, 3000);
+
+    }
+
+
+    nextBtn.addEventListener("click", () => {
+
+        nextSlide();
+
+        startAutoSlide();
+
+    });
+
+
+    prevBtn.addEventListener("click", () => {
+
+        previousSlide();
+
+        startAutoSlide();
+
+    });
+
+
+    dots.forEach((dot, index) => {
+
+        dot.addEventListener("click", () => {
+
+            showSlide(index);
+
+            startAutoSlide();
+
+        });
+
+    });
+
+
+    /* ============================= */
+    /* SWIPE SUPPORT */
+    /* ============================= */
+
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+
+    const slider = document.querySelector(".hero-slider");
+
+
+    slider.addEventListener("touchstart", (e) => {
+
+        touchStartX = e.changedTouches[0].screenX;
+
+    });
+
+
+    slider.addEventListener("touchend", (e) => {
+
+        touchEndX = e.changedTouches[0].screenX;
+
+        handleSwipe();
+
+    });
+
+
+    function handleSwipe() {
+
+        const difference = touchStartX - touchEndX;
+
+
+        if (Math.abs(difference) < 50) {
+            return;
+        }
+
+
+        if (difference > 0) {
+
+            // Swipe left
+            nextSlide();
+
+        } else {
+
+            // Swipe right
+            previousSlide();
+
+        }
+
+
+        startAutoSlide();
+
+    }
+
+
+    /* Start automatic slider */
+
+    startAutoSlide();
+
+</script>

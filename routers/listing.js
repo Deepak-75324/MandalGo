@@ -1,39 +1,12 @@
 const express = require("express");
 const router = express.Router();
 
-const wrapAsync = require("../utils/wrapAsync.js");
-const ExpressError = require("../utils/ExpressError.js");
-
-const { listingSchema } = require("../schema.js");
+const wrapAsync = require("../utils/wrapAsync.js");;
 
 const Listing = require("../models/listing.js");
-const { isLoggedIn } = require("../middleware.js");
-
-
-// ===============================
-// Joi validation middleware
-// ===============================
-
-const validateListing = (req, res, next) => {
-
-    let { error } = listingSchema.validate(req.body);
-
-    if (error) {
-
-        let errMsg = error.details
-            .map((el) => el.message)
-            .join(",");
-
-        throw new ExpressError(400, errMsg);
-
-    } else {
-
-        next();
-
-    }
-};
-
-
+const Review = require("../models/review.js")
+const { isLoggedIn, isOwner, validateListing } = require("../middleware.js");
+// const { findById } = require("../models/review.js");
 // ===============================
 // INDEX ROUTE
 // GET /listings
@@ -81,7 +54,7 @@ router.post(
     wrapAsync(async (req, res) => {
 
         const newListing = new Listing(req.body.listing);
-
+        newListing.owner = req.user._id;
         await newListing.save();
         req.flash("success", "New listing added!");
         res.redirect("/listings");
@@ -94,16 +67,20 @@ router.post(
 // SHOW ROUTE
 // GET /listings/:id
 // ===============================
-
 router.get(
     "/:id",
     wrapAsync(async (req, res) => {
 
         const { id } = req.params;
 
-        const listing = await Listing
-            .findById(id)
-            .populate("reviews");
+        const listing = await Listing.findById(id)
+            .populate("owner")
+            .populate({
+                path: "reviews",
+                populate: {
+                    path: "author"
+                }
+            });
 
         if (!listing) {
             req.flash(
@@ -120,7 +97,6 @@ router.get(
         });
     })
 );
-
 // ===============================
 // EDIT ROUTE
 // GET /listings/:id/edit
@@ -157,13 +133,15 @@ router.get(
 router.put(
     "/:id",
     isLoggedIn,
+    isOwner,
     validateListing,
     wrapAsync(async (req, res) => {
 
         const { id } = req.params;
-
         const listingData = req.body.listing;
-
+        // Find listing
+        const listing = await Listing.findById(id);
+        // Update listing
         await Listing.findByIdAndUpdate(
             id,
             listingData,
@@ -172,13 +150,12 @@ router.put(
                 runValidators: true
             }
         );
-        req.flash("success", "Listing was updated!");
-        res.redirect(`/listings/${id}`);
 
+        req.flash("success", "Listing was updated!");
+
+        res.redirect(`/listings/${id}`);
     })
 );
-
-
 // ===============================
 // DELETE ROUTE
 // DELETE /listings/:id
@@ -187,20 +164,16 @@ router.put(
 router.delete(
     "/:id",
     isLoggedIn,
+    isOwner,
     wrapAsync(async (req, res) => {
-
         const { id } = req.params;
-
-        const deletedListing =
-            await Listing.findByIdAndDelete(id);
-
+        const listing = await Listing.findById(id);
+        // Delete listing
+        const deletedListing = await Listing.findByIdAndDelete(id);
         console.log(deletedListing);
-        req.flash("success", "listing deleted!");
-
+        req.flash("success", "Listing deleted!");
         res.redirect("/listings");
-
     })
 );
-
 
 module.exports = router;

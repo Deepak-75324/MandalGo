@@ -1,139 +1,175 @@
-
 <%- include("../includes/header") %>
 
+<!-- Main -->
+<main class="details-container">
 
-    <!-- Main -->
-    <main class="details-container">
+    <!-- Back -->
+    <a href="/listings" class="back-link">
+        ← Back to all listings
+    </a>
 
-        <!-- Back -->
-        <a href="/listings" class="back-link">
-            ← Back to all listings
-        </a>
+    <!-- Listing Card -->
+    <section class="details-card">
+
+        <!-- Image -->
+        <div class="details-image">
+            <img
+                src="<%= listing.image || listing.images %>"
+                alt="<%= listing.title %>"
+            >
+        </div>
+
+        <!-- Details -->
+        <div class="details-content">
+             <!-- Owner -->
+        <div class="owner-info">
+
+            <div class="owner-avatar">
+                <%= listing.owner.username.charAt(0).toUpperCase() %>
+            </div>
+
+            <div class="owner-details">
+                <span class="owner-label">Hosted by</span>
+
+                <strong class="owner-name">
+                    <%= listing.owner.username %>
+                </strong>
+            </div>
+
+        </div>
+
+            <!-- Category -->
+            <p class="details-category">
+                <%= listing.category || "Travel Stay" %>
+            </p>
+
+            <!-- Title -->
+            <h1>
+                <%= listing.title %>
+            </h1>
+
+            <!-- Location -->
+            <p class="details-location">
+                📍 <%= listing.location %>, <%= listing.country %>
+            </p>
 
 
-        <!-- Listing Card -->
-        <section class="details-card">
+            <!-- Rating -->
+            <div class="rating">
 
-            <!-- Image -->
-            <div class="details-image">
+                <span class="show-star">★</span>
 
-                <img
-                    src="<%= listing.image || listing.images %>"
-                    alt="<%= listing.title %>"
-                >
+                <strong>
+                    <%= listing.rating || "3.5" %>
+                </strong>
+
+                <span class="rating-text">
+                    Guest rating
+                </span>
 
             </div>
 
 
-            <!-- Details -->
-            <div class="details-content">
-
-                <p class="details-category">
-                    <%= listing.category || "Travel Stay" %>
-                </p>
-
-                <h1>
-                    <%= listing.title %>
-                </h1>
-
-                <p class="details-location">
-                    📍 <%= listing.location %>, <%= listing.country %>
-                </p>
+            <div class="divider"></div>
 
 
-                <!-- Rating -->
-                <div class="rating">
+            <!-- Description -->
+            <h2>About this place</h2>
 
-                    <span class="show-star">★</span>
+            <p class="description">
+                <%= listing.description %>
+            </p>
 
-                    <strong>
-                        <%= listing.rating || "3.5" %>
-                    </strong>
 
-                    <span class="rating-text">
-                        Guest rating
+            <!-- Information -->
+            <div class="info-grid">
+
+                <!-- Country -->
+                <div class="info-box">
+
+                    <span class="info-icon">
+                        🌍
+                    </span>
+
+                    <div>
+                        <small>Country</small>
+
+                        <strong>
+                            <%= listing.country %>
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <!-- Location -->
+                <div class="info-box">
+
+                    <span class="info-icon">
+                        📍
+                    </span>
+
+                    <div>
+                        <small>Location</small>
+
+                        <strong>
+                            <%= listing.location %>
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <!-- Type -->
+                <div class="info-box">
+
+                    <span class="info-icon">
+                        🏠
+                    </span>
+
+                    <div>
+                        <small>Type</small>
+
+                        <strong>
+                            <%= listing.category || "Stay" %>
+                        </strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Price / Booking -->
+            <div class="booking-box">
+
+                <div class="price-section">
+
+                    <span class="price">
+                        ₹<%= listing.price.toLocaleString("en-IN") %>
+                    </span>
+
+                    <span class="per-night">
+                        / night
                     </span>
 
                 </div>
 
-
-                <div class="divider"></div>
-
-
-                <!-- Description -->
-                <h2>About this place</h2>
-
-                <p class="description">
-                    <%= listing.description %>
-                </p>
-
-
-                <!-- Information -->
-                <div class="info-grid">
-
-                    <div class="info-box">
-                        <span class="info-icon">🌍</span>
-
-                        <div>
-                            <small>Country</small>
-                            <strong><%= listing.country %></strong>
-                        </div>
-                    </div>
-
-
-                    <div class="info-box">
-                        <span class="info-icon">📍</span>
-
-                        <div>
-                            <small>Location</small>
-                            <strong><%= listing.location %></strong>
-                        </div>
-                    </div>
-
-
-                    <div class="info-box">
-                        <span class="info-icon">🏠</span>
-
-                        <div>
-                            <small>Type</small>
-                            <strong>
-                                <%= listing.category || "Stay" %>
-                            </strong>
-                        </div>
-                    </div>
-
-                </div>
-
-
-                <!-- Price -->
-                <div class="booking-box">
-
-                    <div class="price-section">
-
-                        <span class="price">
-                            ₹<%= listing.price.toLocaleString("en-IN") %>
-                        </span>
-
-                        <span class="per-night">
-                            / night
-                        </span>
-
-                    </div>
-
-                    <button class="reserve-btn">
-                        Reserve Now
-                    </button>
-
-                </div>
+                <button class="reserve-btn">
+                    Reserve Now
+                </button>
 
             </div>
 
-        </section>
+        </div>
 
+    </section>
 
+    <% if(currentUser && currentUser._id.equals(listing.owner._id)) { %>
         <!-- Action Buttons -->
         <div class="action-buttons">
 
+        <!-- Edit -->
             <a
                 href="/listings/<%= listing._id %>/edit"
                 class="edit-btn"
@@ -142,6 +178,7 @@
             </a>
 
 
+            <!-- Delete -->
             <form
                 method="POST"
                 action="/listings/<%= listing._id %>?_method=DELETE"
@@ -159,69 +196,100 @@
 
         </div>
 
+    <% } %>
+
 </main>
 
-<%- include("../includes/review_form.ejs") %>
+<% if(currentUser){ %>
+    <!-- Review Form -->
+    <%- include("../includes/review_form.ejs") %>
+<% } %>
+<link rel="stylesheet" href="/review_form.css">
 
-<div class="reviews-section details-container ">
-    <h2 class="reviews-title">What Our Guests Say</h2>
+<!-- Reviews Section -->
+<div class="reviews-section details-container">
+
+    <h2 class="reviews-title">
+        What Our Guests Say
+    </h2>
+
 
     <% if (listing.reviews.length === 0) { %>
-        <p class="no-reviews">No reviews yet. Be the first to review!</p>
+
+        <p class="no-reviews">
+            No reviews yet. Be the first to review!
+        </p>
+
     <% } else { %>
 
         <div class="reviews-grid">
 
-            <% 
-                const names = [
-                    "John Doe",
-                    "Emma Wilson",
-                    "Michael Smith",
-                    "Sophia Brown",
-                    "David Miller",
-                    "Olivia Davis",
-                    "James Anderson",
-                    "Ava Taylor"
-                ];
-            %>
+            <% listing.reviews.forEach((review) => { %>
 
-            <% listing.reviews.forEach((review, index) => { %>
-
+                <!-- Review Card -->
                 <div class="review-card">
 
+                    <!-- Review Header -->
                     <div class="review-header">
 
                         <div class="reviewer-info">
+
+                            <!-- Avatar -->
                             <div class="review-avatar">
-                                <%= names[index % names.length].charAt(0) %>
+
+                                <%= (review.author && review.author.username) ? review.author.username.charAt(0).toUpperCase() : 'U' %>
+
                             </div>
 
+
+                            <!-- Reviewer -->
                             <div>
+
                                 <h3>
-                                    <%= names[index % names.length] %>
+                                    <%= (review.author && review.author.username) ? review.author.username : 'Unknown User' %>
                                 </h3>
 
-                                <% if (review.created_At) { %>
-                                    <span class="review-date">
-                                        <%= new Date(review.created_At).toLocaleDateString("en-IN", {
-                                            day: "2-digit",
-                                            month: "short",
-                                            year: "numeric"
-                                        }) %>
-                                    </span>
-                                <% } %>
-                            </div>
-                        </div>
-                        <form
-                            action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
-                            method="POST"
-                            onsubmit="return confirm('Are you sure you want to delete this review?');"
-                        >
-                            <button type="submit" class="delete-review-btn">
-                                🗑️
-                            </button>
-                        </form>
 
+                                <% if (review.created_At) { %>
+
+                                    <span class="review-date">
+
+                                        <%= new Date(
+                                            review.created_At
+                                        ).toLocaleDateString(
+                                            "en-IN",
+                                            {
+                                                day: "2-digit",
+                                                month: "short",
+                                                year: "numeric"
+                                            }
+                                        ) %>
+
+                                    </span>
+
+                                <% } %>
+
+                            </div>
+
+                        </div>
+
+                        <% if (currentUser && review.author && currentUser._id.equals(review.author._id)) { %>
+
+                        <!-- Delete Review -->
+                            <form
+                                action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
+                                method="POST"
+                                onsubmit="return confirm('Are you sure you want to delete this review?');"
+                            >
+                                <button
+                                    type="submit"
+                                    class="delete-review-btn"
+                                >
+                                    🗑️
+                                </button>
+                            </form>
+
+                        <% } %>   
                     </div>
 
 
@@ -231,12 +299,21 @@
                         <% for (let i = 1; i <= 5; i++) { %>
 
                             <% if (i <= review.rating) { %>
-                                <span class="star filled">★</span>
+
+                                <span class="star filled">
+                                    ★
+                                </span>
+
                             <% } else { %>
-                                <span class="star">☆</span>
+
+                                <span class="star">
+                                    ☆
+                                </span>
+
                             <% } %>
 
                         <% } %>
+
 
                         <span class="rating-number">
                             <%= review.rating %>/5
@@ -260,5 +337,5 @@
 
 </div>
 
-    <%- include("../includes/footer") %>
-
+<!-- Footer -->
+<%- include("../includes/footer") %>

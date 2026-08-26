@@ -14,12 +14,21 @@ async function main() {
 }
 
 const initDB = async () => {
+
     await Listing.deleteMany({});
+
+    initData.data = initData.data.map((obj) => ({
+        ...obj,
+        owner: "6a8c6211aa4214b193eb3852"
+    }));
+
     await Listing.insertMany(initData.data);
+
     console.log("Data was saved!");
+
     await mongoose.disconnect();
     process.exit(0);
-}
+};
 
 initDB().catch((err) => {
     console.error(err);

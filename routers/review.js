@@ -2,36 +2,11 @@ const express = require("express");
 const router = express.Router({ mergeParams: true });
 
 const wrapAsync = require("../utils/wrapAsync.js");
-const ExpressError = require("../utils/ExpressError.js");
-
-const { reviewSchema } = require("../schema.js");
 
 const Review = require("../models/review.js");
 const Listing = require("../models/listing.js");
-const { isLoggedIn } = require("../middleware.js");
-
-
-// ===============================
-// Review validation
-// ===============================
-
-const validateReview = (req, res, next) => {
-
-    let { error } = reviewSchema.validate(req.body);
-
-    if (error) {
-
-        let errMsg = error.details
-            .map((el) => el.message)
-            .join(",");
-
-        throw new ExpressError(400, errMsg);
-    }
-
-    next();
-};
-
-
+const { isLoggedIn, isReviewAuther } = require("../middleware.js");
+const { validateReview} = require("../middleware.js");
 // ===============================
 // CREATE REVIEW
 // POST /listings/:id/reviews
@@ -39,30 +14,31 @@ const validateReview = (req, res, next) => {
 
 router.post(
     "/",
-    validateReview,
     isLoggedIn,
     wrapAsync(async (req, res) => {
 
         const listing = await Listing.findById(req.params.id);
 
         if (!listing) {
-            throw new ExpressError(404, "Listing not found");
+            req.flash("error", "Listing not found!");
+            return res.redirect("/listings");
         }
 
-        const newReview = new Review(req.body.review);
+        const review = new Review(req.body.review);
 
-        listing.reviews.push(newReview);
+        // Store logged-in user as review author
+        review.author = req.user._id;
 
-        await newReview.save();
+        listing.reviews.push(review);
+
+        await review.save();
         await listing.save();
 
-        console.log("New review saved");
-        req.flash("success", "New review added!");
+        req.flash("success", "Review added!");
 
         res.redirect(`/listings/${listing._id}`);
     })
 );
-
 
 // ===============================
 // DELETE REVIEW
@@ -72,6 +48,7 @@ router.post(
 router.delete(
     "/:reviewId",
     isLoggedIn,
+    isReviewAuther,
     wrapAsync(async (req, res) => {
 
         const { id, reviewId } = req.params;
