@@ -2,7 +2,7 @@
 
 ### Explore the World. Discover Places. Plan Your Journey.
 
-MandalGo is a full-stack travel discovery and listing platform built with Node.js, Express.js, MongoDB, Mongoose, and EJS. It allows users to explore travel destinations, view detailed listings, create their own listings, manage listings they own, and share reviews with their actual user identity.
+MandalGo is a full-stack travel discovery and listing platform built with **Node.js, Express.js, MongoDB, Mongoose, and EJS**. It allows users to explore travel destinations, view detailed listings, create their own listings, manage listings they own, and share reviews with their actual user identity.
 
 ---
 
@@ -32,7 +32,7 @@ Browse travel listings from different locations and countries.
 
 ### 🔎 Search & Discover
 
-Explore available listings and find suitable places for your journey.
+Explore available travel listings and find suitable places for your journey.
 
 ### 🏨 Multiple Listing Categories
 
@@ -69,7 +69,7 @@ Users can:
 - Log out
 - Access protected features
 
-Authentication is implemented using Passport.js and sessions.
+Authentication is implemented using **Passport.js** and sessions.
 
 ### ➕ Create Listing
 
@@ -123,90 +123,3 @@ Login Page
 Successful Login
       ↓
 Create Listing Page
-
-### 📂 Project Structure
-MandalGo/
-│
-├── app.js
-├── middleware.js
-├── package.json
-├── package-lock.json
-├── README.md
-│
-├── models/
-│   ├── listing.js
-│   ├── review.js
-│   └── user.js
-│
-├── routes/
-│   ├── listing.js
-│   ├── review.js
-│   └── user.js
-│
-├── public/
-│   │
-│   ├── css/
-│   │   ├── style.css
-│   │   ├── navbar.css
-│   │   ├── listing.css
-│   │   └── review.css
-│   │
-│   ├── js/
-│   │   └── script.js
-│   │
-│   └── images/
-│       ├── mandalgo-logo.png
-│       ├── hero1.jpg
-│       ├── hero2.jpg
-│       ├── hero3.jpg
-│       ├── hero4.jpg
-│       └── hero5.jpg
-│
-├── views/
-│   │
-│   ├── includes/
-│   │   ├── header.ejs
-│   │   ├── footer.ejs
-│   │   └── review_form.ejs
-│   │
-│   ├── listing/
-│   │   ├── index.ejs
-│   │   ├── show.ejs
-│   │   ├── new.ejs
-│   │   └── edit.ejs
-│   │
-│   └── users/
-│       ├── login.ejs
-│       └── signup.ejs
-│
-├── init/
-│   ├── data.js
-│   └── index.js
-│
-└── .env
-
-### 🛠️ Technologies Used
-# Frontend
-HTML5
-CSS3
-JavaScript
-EJS
-Responsive Web Design
-# Backend
-Node.js
-Express.js
-Passport.js
-Passport-Local
-Express Session
-Database
-MongoDB
-Mongoose
-Validation & Middleware
-# Joi
-Custom Express Middleware
-Method Override
-RESTful Routing
-# Other
-Flash Messages
-EJS Partials
-git & github
