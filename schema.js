@@ -30,7 +30,10 @@ module.exports.listingSchema = Joi.object({
                 "Resort",
                 "Guesthouse",
                 "Hostel",
-                "Tourist place"
+                "Tourist place",
+                "Home",
+                "Mountain",
+                "Other",
             )
             .default("Hotel"),
 

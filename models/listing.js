@@ -18,23 +18,8 @@ const ListingSchema = new Schema(
 
         // Image can be uploaded or provided through a URL
         image: {
-            type: String,
-            default: "https://saarang.com.np/wp-content/uploads/2023/08/JANAKI-TEMPLE.png",
-            set: (value) => {
-                if (value === "" || value == null) {
-                    return "https://saarang.com.np/wp-content/uploads/2023/08/JANAKI-TEMPLE.png";
-                }
-
-                if (typeof value === "object" && value.url) {
-                    return value.url;
-                }
-
-                if (typeof value === "object") {
-                    return "https://saarang.com.np/wp-content/uploads/2023/08/JANAKI-TEMPLE.png";
-                }
-
-                return value;
-            },
+            url: String,
+            filename: String
         },
         price: {
             type: Number,
@@ -63,7 +48,10 @@ const ListingSchema = new Schema(
                 "Resort",
                 "Guesthouse",
                 "Hostel",
-                "Tourist place"
+                "Tourist place",
+                "Home",
+                "Mountain",
+                "Other",
             ],
             default: "Hotel"
         },

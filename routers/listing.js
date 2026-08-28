@@ -7,6 +7,9 @@ const wrapAsync = require("../utils/wrapAsync.js");;
 // const Review = require("../models/review.js")
 const { isLoggedIn, isOwner, validateListing } = require("../middleware.js");
 const { index, newListingForm, newListingPost, showListing, editListing, updateListing, deleteListing } = require("../controllers/listings.js");
+const multer  = require('multer')
+const {storage} = require('../clodConfig.js');
+const upload = multer({ storage });
 // const { findById } = require("../models/review.js");
 
 
@@ -15,6 +18,7 @@ router.route("/")
 .post(                     // CREATE ROUTE
     isLoggedIn,
     validateListing,
+    upload.single("listing[image][file]"),
     newListingPost
 );
 
