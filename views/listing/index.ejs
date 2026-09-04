@@ -168,7 +168,7 @@
 
                     <div class="image-container">
                         <img
-                            src="<%= listing.image.url || listing.images.url %>"
+                            src="<%= listing.image?.url || listing.images?.url || 'https://via.placeholder.com/300x200?text=No+Image' %>"
                             alt="<%= listing.title %>"
                         >
 

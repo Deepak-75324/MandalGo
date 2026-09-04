@@ -14,7 +14,7 @@
         <!-- Image -->
         <div class="details-image">
             <img
-                src="<%= listing.image.url || listing.images.url %>"
+                src="<%= listing.image?.url || listing.images?.url || 'https://via.placeholder.com/500x300?text=No+Image' %>"
                 alt="<%= listing.title %>"
             >
         </div>
