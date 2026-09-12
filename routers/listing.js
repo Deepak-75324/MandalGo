@@ -30,6 +30,7 @@ router.get("/new", isLoggedIn, newListingForm);
 router.route("/:id")
 .get(                     // SHOW ROUTE
     wrapAsync(showListing))
+    
 .put(                        // UPDATE ROUTE
     isLoggedIn,
     isOwner,

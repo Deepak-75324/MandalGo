@@ -44,6 +44,19 @@ const ListingSchema = new Schema({
         trim: true
     },
 
+    geometry: {
+        type: {
+            type: String,
+            enum: ["Point"],
+            required: true,
+            default: "Point",
+        },
+        coordinates: {
+            type: [Number], // [lng, lat]
+            required: true,
+        },
+    },
+
     category: {
         type: String,
         enum: [
@@ -79,21 +92,10 @@ const ListingSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "User"
     },
-
-    // GeoJSON location
-    geometry: {
-        type: {
-            type: String,
-            enum: ["Point"],
-        },
-        coordinates: {
-            type: [Number],
-        }
-    }
 });
 
 // MongoDB geospatial index
-ListingSchema.index({ geometry: "2dsphere" });
+// ListingSchema.index({ geometry: "2dsphere" });
 
 ListingSchema.post("findOneAndDelete", async (listing) => {
     if (listing) {

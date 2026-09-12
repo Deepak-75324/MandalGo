@@ -105,14 +105,6 @@ app.use((req, res, next) => {
     next();
 });
 
-// HOME ROUTE
-
-app.get("/", (req, res) => {
-
-    res.send("Hi I am coder..");
-
-});
-
 // LISTING ROUTES
 app.use(
     "/listings",
