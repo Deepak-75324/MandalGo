@@ -36,15 +36,42 @@ module.exports.newListingPost = async (req, res) => {
         filename
     };
 
+    // Get latitude and longitude from OpenStreetMap
+    const response = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+            req.body.listing.location + ", " + req.body.listing.country
+        )}`,
+        {
+            headers: {
+                "User-Agent": "MandalGo/1.0"
+            }
+        }
+    );
+
+    const data = await response.json();
+
+    // Check if location was found
+    if (data.length === 0) {
+        req.flash("error", "Location not found!");
+        return res.redirect("/listings/new");
+    }
+
+    // Store GeoJSON location
     newListing.geometry = {
         type: "Point",
-        coordinates: [-83.7534, 9.7489]
+        coordinates: [
+            parseFloat(data[0].lon),
+            parseFloat(data[0].lat)
+        ]
     };
-    await newListing.save();
+
+    let savedListing = await newListing.save();
+    console.log(savedListing);
 
     req.flash("success", "New listing added!");
     res.redirect("/listings");
 };
+
 module.exports.showListing = async (req, res) => {
 
         const { id } = req.params;
@@ -102,36 +129,71 @@ module.exports.editListing = async (req, res) => {
 // Edit form Post request
 module.exports.updateListing = async (req, res) => {
 
-        const { id } = req.params;
-        
-        // Get existing listing to preserve image if not updating it
-        const existingListing = await Listing.findById(id);
-        
-        let listingData = req.body.listing;
-        
-        // If a new file is uploaded, update the image
-        if(typeof req.file !== "undefined"){
-            let url = req.file.path;
-            let filename = req.file.filename;
-            listingData.image = {url, filename};
-        } else {
-            // If no new file, keep the existing image
-            listingData.image = existingListing.image;
-        }
-        
-        // Update listing
-        await Listing.findByIdAndUpdate(
-            id,
-            listingData,
-            {
-                new: true,
-                runValidators: true
+    const { id } = req.params;
+
+    // Get existing listing
+    const existingListing = await Listing.findById(id);
+
+    let listingData = req.body.listing;
+
+    // If a new image is uploaded
+    if (typeof req.file !== "undefined") {
+        let url = req.file.path;
+        let filename = req.file.filename;
+
+        listingData.image = {
+            url,
+            filename
+        };
+    } else {
+        // Keep existing image
+        listingData.image = existingListing.image;
+    }
+
+    // Get updated location
+    const location = listingData.location;
+    const country = listingData.country;
+
+    // Convert location into latitude and longitude
+    const response = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+            location + ", " + country
+        )}`,
+        {
+            headers: {
+                "User-Agent": "MandalGo/1.0"
             }
-        );
+        }
+    );
 
-        req.flash("success", "Listing was updated!");
+    const data = await response.json();
 
-        res.redirect(`/listings/${id}`);
+    // Check location
+    if (data.length === 0) {
+        req.flash("error", "Location not found!");
+        return res.redirect(`/listings/${id}/edit`);
+    }
+
+    // Update coordinates
+    listingData.geometry = {
+        type: "Point",
+        coordinates: [
+            parseFloat(data[0].lon),
+            parseFloat(data[0].lat)
+        ]
+    };
+
+    // Update listing
+    await Listing.findByIdAndUpdate(
+        id,
+        listingData,
+        {
+            new: true,
+            runValidators: true
+        }
+    );
+    req.flash("success", "Listing was updated!");
+    res.redirect(`/listings/${id}`);
 };
 
 // DELETE LISTING

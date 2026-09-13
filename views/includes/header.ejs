@@ -79,7 +79,6 @@
                     </button>
                 </a>
 
-
                 <!-- User Menu -->
                 <div class="user-menu">
 
@@ -91,7 +90,6 @@
                         ☰
                     </button>
 
-
                     <div
                         class="user-dropdown"
                         id="userDropdown"
@@ -101,37 +99,37 @@
 
                             <!-- Logged in -->
                             <div class="user-welcome">
-
                                 👋 Hello,
                                 <strong>
                                     <%= currentUser.username.split(" ")[0] %>
                                 </strong>
-
                             </div>
 
                             <div class="dropdown-divider"></div>
 
-
-                            <!-- Logout -->
-                            <form
-                                action="/logout"
-                                method="POST"
-                            >
-
-                                <button
-                                    type="submit"
-                                    class="dropdown-item logout-btn"
+                                <!-- New Listing -->
+                                <a
+                                    href="/listings/new"
+                                    class="dropdown-item"
                                 >
-                                    🚪 Logout
-                                </button>
+                                    ➕ New Listing
+                                </a>
 
-                            </form>
-
+                                <!-- Logout -->
+                                <form
+                                    action="/logout"
+                                    method="POST"
+                                >
+                                    <button
+                                        type="submit"
+                                        class="dropdown-item logout-btn"
+                                    >
+                                        🚪 Logout
+                                    </button>
+                                </form>
 
                         <% } else { %>
-
                             <!-- Not logged in -->
-
                             <a
                                 href="/login"
                                 class="dropdown-item"
