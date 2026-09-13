@@ -7,6 +7,11 @@ module.exports.singupForm = (req,res) => {
     });
 
 };
+// about page
+module.exports.aboutpage = (req, res) => {
+    res.render("listing/about.ejs");
+}
+
 module.exports.singupPost = async (req, res) => {
     try {
         let { username, email, password } = req.body;

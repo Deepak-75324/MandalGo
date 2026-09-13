@@ -2743,3 +2743,880 @@ body {
 .error-btn:hover {
     background: #e63946;
 }
+/* =========================================================
+   MANDALGO - ABOUT PAGE
+========================================================= */
+
+
+/* =========================================================
+   ABOUT HERO
+========================================================= */
+
+.about-hero {
+    min-height: 500px;
+    padding: 80px 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(7, 37, 63, 0.97),
+            rgba(14, 85, 72, 0.94)
+        );
+
+    color: #ffffff;
+}
+
+
+.about-hero-content {
+    max-width: 850px;
+    margin: auto;
+}
+
+
+.about-label {
+    margin-bottom: 15px;
+
+    color: #20a464;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    letter-spacing: 2px;
+}
+
+
+.about-hero .about-label {
+    color: #69e39a;
+}
+
+
+.about-hero h1 {
+    margin: 0 0 25px;
+
+    font-size: 58px;
+    line-height: 1.1;
+
+    font-weight: 800;
+
+    letter-spacing: -1px;
+}
+
+
+.about-hero h1 span {
+    color: #4ade80;
+}
+
+
+.about-hero-text {
+    max-width: 680px;
+
+    margin: 0 auto 30px;
+
+    color: #e2e8f0;
+
+    font-size: 18px;
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   BUTTON
+========================================================= */
+
+.about-btn {
+    display: inline-block;
+
+    padding: 13px 28px;
+
+    background: #20a464;
+    color: #ffffff;
+
+    border-radius: 8px;
+
+    text-decoration: none;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    transition:
+        background 0.3s ease,
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+
+.about-btn:hover {
+    background: #16834e;
+
+    color: #ffffff;
+
+    transform: translateY(-3px);
+
+    box-shadow: 0 8px 20px rgba(32, 164, 100, 0.25);
+}
+
+
+/* =========================================================
+   GENERAL ABOUT SECTION
+========================================================= */
+
+.about-section {
+    max-width: 1150px;
+
+    margin: auto;
+
+    padding: 90px 25px;
+}
+
+
+.about-heading {
+    max-width: 760px;
+
+    margin: 0 auto 55px;
+
+    text-align: center;
+}
+
+
+.about-heading h2 {
+    margin-bottom: 18px;
+
+    color: #123b5d;
+
+    font-size: 38px;
+    line-height: 1.2;
+}
+
+
+.about-heading h2 span {
+    color: #20a464;
+}
+
+
+.about-heading > p:last-child {
+    color: #64748b;
+
+    font-size: 16px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   ABOUT INTRO
+========================================================= */
+
+.about-intro {
+    display: grid;
+
+    grid-template-columns: 1.5fr 1fr;
+
+    gap: 50px;
+
+    align-items: center;
+}
+
+
+.about-intro-text h3 {
+    margin-bottom: 20px;
+
+    color: #123b5d;
+
+    font-size: 28px;
+}
+
+
+.about-intro-text p {
+    margin-bottom: 15px;
+
+    color: #64748b;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   ABOUT HIGHLIGHT
+========================================================= */
+
+.about-highlight {
+    padding: 45px 30px;
+
+    text-align: center;
+
+    background: #f0faf5;
+
+    border: 1px solid #d7f1e2;
+
+    border-radius: 20px;
+
+    transition: 0.3s ease;
+}
+
+
+.about-highlight:hover {
+    transform: translateY(-5px);
+
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+
+.about-highlight-icon {
+    margin-bottom: 15px;
+
+    font-size: 55px;
+}
+
+
+.about-highlight h3 {
+    margin-bottom: 10px;
+
+    color: #123b5d;
+
+    font-size: 25px;
+}
+
+
+.about-highlight p {
+    color: #64748b;
+}
+
+
+/* =========================================================
+   CREATOR SECTION
+========================================================= */
+
+.creator-section {
+    padding: 90px 25px;
+
+    background: #ffffff;
+}
+
+
+.creator-container {
+    max-width: 1050px;
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns: 380px 1fr;
+
+    gap: 70px;
+
+    align-items: center;
+}
+
+
+/* Creator Image */
+
+.creator-image {
+    text-align: center;
+}
+
+
+.creator-image img {
+    width: 320px;
+    height: 380px;
+
+    object-fit: cover;
+
+    display: block;
+
+    margin: auto;
+
+    border-radius: 20px;
+
+    border: 8px solid #f0faf5;
+
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.12);
+
+    transition: 0.3s ease;
+}
+
+
+.creator-image img:hover {
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 20px 45px rgba(0, 0, 0, 0.16);
+}
+
+
+/* Creator Content */
+
+.creator-content h2 {
+    margin-bottom: 8px;
+
+    color: #123b5d;
+
+    font-size: 40px;
+
+    line-height: 1.2;
+}
+
+
+.creator-content h2 span {
+    color: #20a464;
+}
+
+
+.creator-content h3 {
+    margin-bottom: 22px;
+
+    color: #64748b;
+
+    font-size: 20px;
+}
+
+
+.creator-content > p:not(.about-label) {
+    margin-bottom: 15px;
+
+    color: #64748b;
+
+    line-height: 1.8;
+}
+
+
+/* Creator Details */
+
+.creator-details {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 15px;
+
+    margin-top: 30px;
+}
+
+
+.creator-details div {
+    padding: 18px 15px;
+
+    background: #f8fafc;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 12px;
+
+    transition: 0.3s ease;
+}
+
+
+.creator-details div:hover {
+    transform: translateY(-3px);
+
+    border-color: #cceedd;
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
+
+.creator-details strong {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: #123b5d;
+
+    font-size: 14px;
+}
+
+
+.creator-details p {
+    margin: 0;
+
+    color: #64748b;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   WHAT WE OFFER
+========================================================= */
+
+.about-offer {
+    padding: 90px 25px;
+
+    background: #f8fafc;
+}
+
+
+.about-cards {
+    max-width: 1150px;
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 25px;
+}
+
+
+.about-card {
+    padding: 30px 25px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 15px;
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        border-color 0.3s ease;
+}
+
+
+.about-card:hover {
+    transform: translateY(-7px);
+
+    border-color: #cceedd;
+
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+
+/* Card Icon */
+
+.about-card-icon {
+    width: 58px;
+    height: 58px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 20px;
+
+    background: #eaf8f0;
+
+    border-radius: 14px;
+
+    font-size: 28px;
+}
+
+
+.about-card h3 {
+    margin-bottom: 10px;
+
+    color: #123b5d;
+
+    font-size: 20px;
+}
+
+
+.about-card p {
+    margin: 0;
+
+    color: #64748b;
+
+    font-size: 15px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   MISSION SECTION
+========================================================= */
+
+.about-mission {
+    padding: 100px 25px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0b2d4d,
+            #123f63
+        );
+
+    color: #ffffff;
+}
+
+
+.about-mission-content {
+    max-width: 850px;
+
+    margin: auto;
+
+    text-align: center;
+}
+
+
+.about-mission .about-label {
+    color: #4ade80;
+}
+
+
+.about-mission h2 {
+    margin-bottom: 25px;
+
+    font-size: 40px;
+
+    line-height: 1.2;
+}
+
+
+.about-mission h2 span {
+    color: #4ade80;
+}
+
+
+.about-mission p:not(.about-label) {
+    margin-bottom: 15px;
+
+    color: #dbeafe;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   HOW IT WORKS
+========================================================= */
+
+.about-how {
+    max-width: 1150px;
+
+    margin: auto;
+
+    padding: 90px 25px;
+}
+
+
+.about-steps {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 30px;
+}
+
+
+.about-step {
+    padding: 25px;
+
+    text-align: center;
+}
+
+
+.step-number {
+    width: 65px;
+    height: 65px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin: 0 auto 20px;
+
+    border-radius: 50%;
+
+    background: #eaf8f0;
+
+    color: #20a464;
+
+    font-size: 18px;
+
+    font-weight: 800;
+}
+
+
+.about-step h3 {
+    margin-bottom: 10px;
+
+    color: #123b5d;
+
+    font-size: 22px;
+}
+
+
+.about-step p {
+    color: #64748b;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   CTA SECTION
+========================================================= */
+
+.about-cta {
+    padding: 80px 25px;
+
+    text-align: center;
+
+    background: #f0faf5;
+}
+
+
+.about-cta h2 {
+    margin-bottom: 15px;
+
+    color: #123b5d;
+
+    font-size: 40px;
+
+    line-height: 1.2;
+}
+
+
+.about-cta p:not(.about-label) {
+    margin-bottom: 25px;
+
+    color: #64748b;
+}
+
+
+.about-btn-light {
+    background: #123b5d;
+}
+
+
+.about-btn-light:hover {
+    background: #0b2d4d;
+}
+
+
+/* =========================================================
+   TABLET RESPONSIVE
+========================================================= */
+
+@media (max-width: 900px) {
+
+    /* Hero */
+
+    .about-hero {
+        min-height: 450px;
+    }
+
+
+    .about-hero h1 {
+        font-size: 46px;
+    }
+
+
+    /* Intro */
+
+    .about-intro {
+        grid-template-columns: 1fr;
+
+        gap: 35px;
+    }
+
+
+    /* Creator */
+
+    .creator-container {
+        grid-template-columns: 1fr;
+
+        gap: 45px;
+
+        text-align: center;
+    }
+
+
+    .creator-image img {
+        width: 280px;
+        height: 340px;
+    }
+
+
+    /* Cards */
+
+    .about-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+
+    /* Steps */
+
+    .about-steps {
+        grid-template-columns: 1fr;
+
+        gap: 15px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE RESPONSIVE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    /* Hero */
+
+    .about-hero {
+        min-height: 430px;
+
+        padding: 60px 20px;
+    }
+
+
+    .about-hero h1 {
+        font-size: 36px;
+
+        letter-spacing: -0.5px;
+    }
+
+
+    .about-hero-text {
+        font-size: 16px;
+
+        line-height: 1.6;
+    }
+
+
+    /* General */
+
+    .about-section,
+    .about-how {
+        padding: 65px 20px;
+    }
+
+
+    .about-heading {
+        margin-bottom: 40px;
+    }
+
+
+    .about-heading h2 {
+        font-size: 30px;
+    }
+
+
+    /* Intro */
+
+    .about-intro-text h3 {
+        font-size: 25px;
+    }
+
+
+    /* Creator */
+
+    .creator-section {
+        padding: 65px 20px;
+    }
+
+
+    .creator-image img {
+        width: 240px;
+        height: 290px;
+    }
+
+
+    .creator-content h2 {
+        font-size: 32px;
+    }
+
+
+    .creator-content h3 {
+        font-size: 17px;
+    }
+
+
+    .creator-details {
+        grid-template-columns: 1fr;
+
+        gap: 12px;
+    }
+
+
+    /* Cards */
+
+    .about-offer {
+        padding: 65px 20px;
+    }
+
+
+    .about-cards {
+        grid-template-columns: 1fr;
+
+        gap: 18px;
+    }
+
+
+    .about-card {
+        padding: 25px 20px;
+    }
+
+
+    /* Mission */
+
+    .about-mission {
+        padding: 70px 20px;
+    }
+
+
+    .about-mission h2 {
+        font-size: 32px;
+    }
+
+
+    /* CTA */
+
+    .about-cta {
+        padding: 65px 20px;
+    }
+
+
+    .about-cta h2 {
+        font-size: 30px;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 400px) {
+
+    .about-hero h1 {
+        font-size: 31px;
+    }
+
+
+    .about-heading h2 {
+        font-size: 27px;
+    }
+
+
+    .creator-content h2 {
+        font-size: 28px;
+    }
+
+
+    .creator-image img {
+        width: 220px;
+        height: 270px;
+    }
+
+
+    .about-cta h2 {
+        font-size: 27px;
+    }
+
+}
