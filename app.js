@@ -1,15 +1,31 @@
+// ================================
+// DNS CONFIGURATION
+// ================================
+
 const dns = require("dns");
 
 dns.setServers(["8.8.8.8", "1.1.1.1"]);
-if(process.env.NODE_ENV != 'production'){
-    require('dotenv').config();
+
+
+// ================================
+// ENVIRONMENT VARIABLES
+// ================================
+
+if (process.env.NODE_ENV !== "production") {
+    require("dotenv").config();
 }
-// console.log(process.env.SECRET)
+
+
+// ================================
+// IMPORTS
+// ================================
 
 const express = require("express");
 const app = express();
+
 const mongoose = require("mongoose");
 const path = require("path");
+
 const methodOverride = require("method-override");
 const session = require("express-session");
 const MongoStore = require("connect-mongo").default;
@@ -24,119 +40,242 @@ const ExpressError = require("./utils/ExpressError.js");
 const listingRouter = require("./routers/listing.js");
 const reviewRouter = require("./routers/review.js");
 const userRouter = require("./routers/user.js");
-// require("dns").promises.resolveSrv("_mongodb._tcp.cluster0.prdrys3.mongodb.net")
 
+
+// ================================
 // APP CONFIGURATION
+// ================================
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
+
+// ================================
 // MIDDLEWARE
+// ================================
+
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, "public")));
+
+app.use(
+    express.static(
+        path.join(__dirname, "public")
+    )
+);
+
 app.use(methodOverride("_method"));
 
-// DATABASE CONNECTION
+
+// ================================
+// DATABASE CONFIGURATION
+// ================================
+
 const dbUrl = process.env.ATLASDB_URL;
-main()
-    .then(() => {
-        console.log("connect to DB");
-    })
-    .catch((err) => {
-        console.log("Database connection error:", err);
-    });
+
+if (!dbUrl) {
+    console.error("❌ ATLASDB_URL is not defined!");
+    process.exit(1);
+}
+
+
+// ================================
+// DATABASE CONNECTION
+// ================================
 
 async function main() {
-    await mongoose.connect(dbUrl);
+
+    try {
+
+        await mongoose.connect(dbUrl);
+
+        console.log("✅ Connected to MongoDB Atlas");
+
+    } catch (err) {
+
+        console.error(
+            "❌ Database connection error:",
+            err.message
+        );
+
+        process.exit(1);
+    }
 }
-// SESSION CONFIGURATION
+
+main();
+
+
+// ================================
+// SESSION STORE
+// ================================
+
 const store = MongoStore.create({
+
     mongoUrl: dbUrl,
+
     crypto: {
-        secret: process.env.SECRET,
+        secret: process.env.SECRET
     },
-    touchAfter: 24 * 36000, 
+
+    touchAfter: 24 * 3600
+
 });
 
-store.on("error", () => {
-    console.log("ERROR in MONGO SESSION STORE", err);
+
+// SESSION STORE ERROR
+
+store.on("error", (err) => {
+
+    console.log(
+        "❌ ERROR IN MONGO SESSION STORE:",
+        err
+    );
+
 });
+
+
+// ================================
+// SESSION CONFIGURATION
+// ================================
 
 const sessionOptions = {
-    store,
+
+    store: store,
+
     secret: process.env.SECRET,
+
     resave: false,
+
     saveUninitialized: false,
+
     cookie: {
-        expires: Date.now() + 7 * 24 * 60 * 1000,
-        maxAge: 7 * 24 * 60 * 60 * 1000,
+
+        expires:
+            Date.now() +
+            7 * 24 * 60 * 60 * 1000,
+
+        maxAge:
+            7 * 24 * 60 * 60 * 1000,
+
         httpOnly: true
+
     }
+
 };
 
-// SESSION + FLASH
-app.use(session(sessionOptions));
 
-app.use(flash());
+// ================================
+// SESSION
+// ================================
 
-// PASSPORT CONFIGURATION
-
-// Initialize Passport
-app.use(passport.initialize());
-
-// Enable persistent login sessions
-app.use(passport.session());
-
-
-// Local username/password authentication
-passport.use(
-    new LocalStrategy(User.authenticate())
+app.use(
+    session(sessionOptions)
 );
 
 
-// Store logged-in user's ID in session
+// ================================
+// FLASH
+// ================================
+
+app.use(flash());
+
+
+// ================================
+// PASSPORT
+// ================================
+
+app.use(passport.initialize());
+
+app.use(passport.session());
+
+
+// ================================
+// PASSPORT LOCAL STRATEGY
+// ================================
+
+passport.use(
+    new LocalStrategy(
+        User.authenticate()
+    )
+);
+
+
+// ================================
+// PASSPORT SERIALIZATION
+// ================================
+
 passport.serializeUser(
     User.serializeUser()
 );
 
-
-// Retrieve user from session
 passport.deserializeUser(
     User.deserializeUser()
 );
 
-// FLASH MESSAGE MIDDLEWARE
+
+// ================================
+// GLOBAL VARIABLES
+// ================================
+
 app.use((req, res, next) => {
 
-    res.locals.success = req.flash("success");
+    res.locals.success =
+        req.flash("success");
 
-    res.locals.error = req.flash("error");
+    res.locals.error =
+        req.flash("error");
 
-    // Make logged-in user available in EJS
-    res.locals.currentUser = req.user;
+    res.locals.currentUser =
+        req.user;
 
     next();
-});
-app.get("/", (req, res) => {
-    res.render("listings/index.ejs");
+
 });
 
+
+// ================================
+// HOME ROUTE
+// ================================
+
+app.get("/", (req, res) => {
+
+    res.redirect("/listings");
+
+});
+
+
+// ================================
 // LISTING ROUTES
+// ================================
+
 app.use(
     "/listings",
     listingRouter
 );
+
+
+// ================================
 // REVIEW ROUTES
+// ================================
+
 app.use(
     "/listings/:id/reviews",
     reviewRouter
 );
-// USER / AUTHENTICATION ROUTES
+
+
+// ================================
+// USER / AUTH ROUTES
+// ================================
+
 app.use(
     "/",
     userRouter
 );
+
+
+// ================================
 // 404 ROUTE
+// ================================
+
 app.all("/{*splat}", (req, res, next) => {
 
     next(
@@ -148,32 +287,55 @@ app.all("/{*splat}", (req, res, next) => {
 
 });
 
-// CUSTOM ERROR HANDLER
-app.use((err, req, res, next) => {
 
-    let {
-        statusCode = 500,
-        message = "Something went wrong!"
-    } = err;
+// ================================
+// ERROR HANDLER
+// ================================
 
-    res.status(statusCode).render(
-        "error.ejs",
-        {
-            message,
-            statusCode
-        }
-    );
+app.use(
+    (err, req, res, next) => {
 
-});
+        console.error(
+            "❌ ERROR:",
+            err
+        );
+
+        const statusCode =
+            err.statusCode || 500;
+
+        const message =
+            err.message ||
+            "Something went wrong!";
+
+        res.status(statusCode).render(
+            "error.ejs",
+            {
+                message,
+                statusCode
+            }
+        );
+
+    }
+);
+
+
+// ================================
 // START SERVER
+// ================================
+
+// Render provides PORT.
+// Localhost uses 8080 if PORT is not available.
+
+const PORT =
+    process.env.PORT || 8080;
 
 app.listen(
-    8080,
+    PORT,
     "0.0.0.0",
     () => {
 
         console.log(
-            "app is listening on port 8080"
+            `🚀 MandalGo server running on port ${PORT}`
         );
 
     }
