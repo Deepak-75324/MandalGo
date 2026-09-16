@@ -95,7 +95,7 @@ const ListingSchema = new Schema({
 });
 
 // MongoDB geospatial index
-// ListingSchema.index({ geometry: "2dsphere" });
+ListingSchema.index({ geometry: "2dsphere" });
 
 ListingSchema.post("findOneAndDelete", async (listing) => {
     if (listing) {
