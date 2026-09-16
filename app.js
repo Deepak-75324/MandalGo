@@ -117,6 +117,9 @@ app.use((req, res, next) => {
 
     next();
 });
+app.get("/", (req, res) => {
+    res.render("listings/index.ejs");
+});
 
 // LISTING ROUTES
 app.use(
