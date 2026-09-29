@@ -8,26 +8,30 @@ module.exports.forgotPassword = (req, res)  => {
     });
 };
 
-module.exports.sendOTP = async(req, res) => {
-    try{
-        let{email} = req.body;
-        // check user exist
-        const user = await User.findOne({email});
+module.exports.sendOTP = async (req, res) => {
+    try {
+        let { email } = req.body;
 
-        if(!user){
+        // Check if user exists
+        const user = await User.findOne({ email });
+
+        if (!user) {
             req.flash("error", "Email is not registered!");
-            return res.redirct("/forgot-password");
+            return res.redirect("/forgot-password");
         }
 
+        // Generate 6-digit OTP
         const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
+        // Hash OTP
         const hashedOTP = await bcrypt.hash(otp, 10);
+
         user.resetOTP = hashedOTP;
         user.expiryOTP = new Date(Date.now() + 5 * 60 * 1000);
 
         await user.save();
 
-      //Email transporter
+        // Email transporter
         const transporter = nodemailer.createTransport({
             host: "smtp.gmail.com",
             port: 587,
@@ -41,19 +45,19 @@ module.exports.sendOTP = async(req, res) => {
         await transporter.sendMail({
             from: process.env.EMAIL_USER,
             to: email,
-            subject: "MandalGo password reset OTP",
-            text :`Your MandalGo reset password OTP is ${otp}. It is only valid for 5 minutes.`
+            subject: "MandalGo Password Reset OTP",
+            text: `Your MandalGo reset password OTP is ${otp}. It is valid for 5 minutes.`
         });
 
-        req.flash("success", "OTP was Send!");
-        res.redirect("/reset-password");
+        req.flash("success", "OTP was sent!");
+        return res.redirect("/reset-password");
 
-    }catch(error){
-        req.flash("error", "Failed to sent OTP");
-        res.redirct("/forgot-password");
+    } catch (error) {
+        console.log(error);
+        req.flash("error", "Failed to send OTP");
+        return res.redirect("/forgot-password");
     }
 };
-
 module.exports.resetPage = (req,res) => {
     res.render("users/resetPage.ejs", {
         title: "Reset Password | MandalGo"
