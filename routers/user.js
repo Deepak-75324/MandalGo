@@ -4,7 +4,8 @@ const router = express.Router();
 const wrapAsync = require('../utils/wrapAsync.js');
 const passport = require('passport');
 const { saveRedirectUrl } = require('../middleware.js');
-const { singup, singupPost, singupForm, loginForm, loginPost, logout, aboutpage } = require('../controllers/user.js');
+const { singup, singupPost, singupForm, loginForm, loginPost, logout, aboutpage,} = require('../controllers/user.js');
+const {forgotPassword, sendOTP, resetPage, resetPassword } = require("../controllers/resetPassword.js");
 
 router.route("/signup")
     .get(singupForm)    // signup pform  render
@@ -22,6 +23,11 @@ router.route("/login")
     loginPost
 );
 
+router.get("/forgot-password", forgotPassword);
+router.post("/forgot-password", sendOTP);
+
+router.get("/reset-password", resetPage);
+router.post("/reset-password", resetPassword);
 router.post("/logout", logout);
 router.get("/about", aboutpage);
 

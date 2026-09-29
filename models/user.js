@@ -6,6 +6,14 @@ const userSchema = new Schema({
     email: {
         type: String,
         required: true
+    },
+    resetOTP: {
+        type: String,
+        default: null
+    },
+    expiryOTP: {
+        type: Date,
+        default: null
     }
 });
 

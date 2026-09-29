@@ -1,14 +1,24 @@
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Login | MandalGo</title>
+
     <link rel="stylesheet" href="/signup-login.css">
     <link rel="stylesheet" href="/flash.css">
+
 </head>
+
 <body>
+
     <%- include("../includes/flash.ejs") %>
+
     <div class="login-container">
 
         <div class="login-card">
@@ -38,10 +48,7 @@
 
             <!-- Login Form -->
 
-            <form
-                action="/login"
-                method="POST"
-            >
+            <form action="/login" method="POST">
 
                 <!-- Username -->
 
@@ -83,6 +90,17 @@
                 </div>
 
 
+                <!-- Forgot Password -->
+
+                <div class="forgot-password">
+
+                    <a href="/forgot-password">
+                        Forgot Password?
+                    </a>
+
+                </div>
+
+
                 <!-- Login Button -->
 
                 <button
@@ -110,6 +128,8 @@
         </div>
 
     </div>
-    
+
 </body>
+
 </html>
+
