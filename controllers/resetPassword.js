@@ -1,6 +1,15 @@
 const User = require("../models/user.js");
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
+const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+    }
+});
 
 module.exports.forgotPassword = (req, res)  => {
     res.render("users/forgotPassword.ejs",{
@@ -10,9 +19,10 @@ module.exports.forgotPassword = (req, res)  => {
 
 module.exports.sendOTP = async (req, res) => {
     try {
-        let { email } = req.body;
+        const { email } = req.body;
 
-        // Check if user exists
+        console.log("1. Checking user");
+
         const user = await User.findOne({ email });
 
         if (!user) {
@@ -20,40 +30,41 @@ module.exports.sendOTP = async (req, res) => {
             return res.redirect("/forgot-password");
         }
 
+        console.log("2. User found");
+
         // Generate 6-digit OTP
         const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+        console.log("3. OTP generated");
 
         // Hash OTP
         const hashedOTP = await bcrypt.hash(otp, 10);
 
+        // Save OTP and expiry
         user.resetOTP = hashedOTP;
         user.expiryOTP = new Date(Date.now() + 5 * 60 * 1000);
 
         await user.save();
 
-        // Email transporter
-        const transporter = nodemailer.createTransport({
-            host: "smtp.gmail.com",
-            port: 587,
-            secure: false,
-            auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS
-            }
-        });
+        console.log("4. OTP saved to database");
+        console.log("5. Sending email");
 
+        // Send OTP email
         await transporter.sendMail({
             from: process.env.EMAIL_USER,
             to: email,
             subject: "MandalGo Password Reset OTP",
-            text: `Your MandalGo reset password OTP is ${otp}. It is valid for 5 minutes.`
+            text: `Your MandalGo password reset OTP is ${otp}. It is valid for 5 minutes.`
         });
+
+        console.log("6. Email sent successfully");
 
         req.flash("success", "OTP was sent!");
         return res.redirect("/reset-password");
 
     } catch (error) {
-        console.log(error);
+        console.log("OTP ERROR:", error);
+
         req.flash("error", "Failed to send OTP");
         return res.redirect("/forgot-password");
     }
